@@ -15,6 +15,15 @@ public class LabyrinthController {
 		view = new LabyrinthView("Wumpus Game", labyrinth, this);
 	}
 
+	public void moveDown() {
+		int hx = labyrinth.getHeroX();
+		int hy = labyrinth.getHeroY();
+		if (hy < labyrinth.getHeight() - 1) {
+			labyrinth.setHeroY(hy + 1);
+		}
+			
+	}
+	
 	public static void main(String[] args) {
 		Labyrinth lab = new Labyrinth(
 				Labyrinth.WIDTH, Labyrinth.HEIGHT, //Labyrinth size
@@ -28,7 +37,7 @@ public class LabyrinthController {
 				}	
 			);
 		
-
+		LabyrinthController c = new LabyrinthController(lab);
 	}
 
 }
