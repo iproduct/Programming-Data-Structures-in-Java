@@ -12,18 +12,22 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import wumpus.model.CaveState;
+import wumpus.model.Labyrinth;
 
 public class CaveButton extends JPanel {
 	public static final String[] IMAGE_FILE_NAMES= {
 		"images/Rock.png","images/Pit.png","images/Wumpus.png",
 	     "images/Gold.png","images/Hero.png"
 	};
-	private EnumSet<CaveState> states = EnumSet.noneOf(CaveState.class);
+	private Labyrinth labyrinth;
+	private int posX, posY;
 	private Image[] images = new Image[IMAGE_FILE_NAMES.length];
 
 
-	public CaveButton(EnumSet<CaveState> cave) {
-		states = cave;
+	public CaveButton(Labyrinth labyrinth, int posX, int posY) {
+		this.labyrinth = labyrinth;
+		this.posX = posX;
+		this.posY = posY;
 		loadIcons();
 	}
 
@@ -31,8 +35,7 @@ public class CaveButton extends JPanel {
 		super.paintComponent(g);
 		int x1 = 0, y1 = 0, x2 = getSize().width - 1, y2 = getSize().height - 1;
 		g.drawRect(x1, y1, x2, y2);
-		for (CaveState state : states) {
-			switch (state) {
+		switch (labyrinth.getCaves()[posY][posX]) {
 			case ROCK:
 				g.drawImage(images[0], x1+1, y1+1, x2-1, y2-1, null);
 				break;
@@ -45,11 +48,10 @@ public class CaveButton extends JPanel {
 			case GOLD:
 				g.drawImage(images[3], x1+1, y1+1, x2-1, y2-1, null);
 				break;
-			case HERO:
-				g.drawImage(images[4], x1+1, y1+1, x2-1, y2-1, null);
-				break;
 			}
-		}
+	    if (posX == labyrinth.getHeroX() && posY == labyrinth.getHeroY()) {
+	    	g.drawImage(images[4], x1+1, y1+1, x2-1, y2-1, null); //Draw hero if in cave
+	    }
 	}
 	
 	private void loadIcons(){

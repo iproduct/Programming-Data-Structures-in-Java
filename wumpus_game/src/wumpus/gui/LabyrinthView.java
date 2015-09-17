@@ -26,6 +26,11 @@ public class LabyrinthView extends JFrame{
 	private LabyrinthController controller;
 	private CaveButton[] caveButtons;
 	
+	//Swing components
+	JPanel mainPanel = new JPanel(); //main game panel
+	JPanel buttonPanel = new JPanel(); //bottom button panel
+	
+	
 	public LabyrinthView(String title, Labyrinth labyrinth, LabyrinthController controller) throws HeadlessException {
 		super(title);
 		this.labyrinth = labyrinth;
@@ -35,7 +40,6 @@ public class LabyrinthView extends JFrame{
 		setLocationRelativeTo(null);
 		
 		// Main game panel
-		JPanel mainPanel = new JPanel();
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 		int width = labyrinth.getWidth(), height = labyrinth.getHeight();
 		mainPanel.setLayout(
@@ -57,7 +61,6 @@ public class LabyrinthView extends JFrame{
 				
 		
 		// Bottom button panel
-		JPanel buttonPanel = new JPanel();
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 		
 		JButton btnUp = new JButton("Up");
@@ -69,7 +72,8 @@ public class LabyrinthView extends JFrame{
 		JButton btnDown = new JButton("Down");
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				controller.moveDown();
+				mainPanel.repaint();
 			}
 		});
 		

@@ -21,7 +21,8 @@ public class LabyrinthController {
 		if (hy < labyrinth.getHeight() - 1) {
 			labyrinth.setHeroY(hy + 1);
 		}
-			
+		System.out.println("Hero X=" + labyrinth.getHeroX() 
+		+ ", Y=" + labyrinth.getHeroY());		
 	}
 	
 	public static void main(String[] args) {
