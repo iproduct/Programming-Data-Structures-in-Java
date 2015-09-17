@@ -1,6 +1,13 @@
 package wumpus.model;
 
-import static wumpus.model.CaveState.*;
+import static wumpus.model.CaveState.EMPTY;
+import static wumpus.model.CaveState.GOLD;
+import static wumpus.model.CaveState.PIT;
+import static wumpus.model.CaveState.WUMPUS;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Labyrinth {
 	public static final int WIDTH = 10;
@@ -96,6 +103,18 @@ public class Labyrinth {
 		return result;
 	}
 	
+	public void printStatistics(){
+		List<CaveState> cavesList = new ArrayList<>();
+		for(CaveState[] row: caves)
+			for(CaveState cave: row)
+				cavesList.add(cave);
+		cavesList.stream()
+			.filter(c -> c != EMPTY)
+//			.forEach((CaveState c) -> System.out.println(c));
+			.sorted()
+			.forEach(System.out::println);
+	}
+	
 	public static void main(String[] args) {
 		Labyrinth lab = new Labyrinth(
 				WIDTH, HEIGHT, //Labyrinth size
@@ -108,6 +127,6 @@ public class Labyrinth {
 					new Position(8,3), 
 				}	
 			);
-		System.out.println(lab);
+		lab.printStatistics();
 	}
 }

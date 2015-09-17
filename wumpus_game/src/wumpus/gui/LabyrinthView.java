@@ -13,9 +13,7 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.EnumSet;
 
 import javax.swing.GroupLayout;
@@ -57,9 +55,6 @@ public class LabyrinthView extends JFrame{
 		CaveState[][] caves = labyrinth.getCaves();
 		for(int i = 0; i < caves.length; i++) {
 			for(int j = 0; j < caves[i].length; j++){
-				EnumSet<CaveState> states = EnumSet.of(caves[i][j]);
-				if (i == labyrinth.getHeroY() && j == labyrinth.getHeroX())
-					states.add(HERO); //show hero icon
 				CaveButton btn = new CaveButton(labyrinth, j, i);				
 				caveButtons[i * labyrinth.getWidth() + j] = btn;
 				mainPanel.add(btn);
@@ -70,13 +65,23 @@ public class LabyrinthView extends JFrame{
 		// Bottom button panel
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 		
+		// with anonimous class
+//		JButton btnUp = new JButton("Up");
+//		btnUp.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				controller.moveUp();
+//				mainPanel.repaint();
+//			}
+//		});
+		
+		// with lambda
 		JButton btnUp = new JButton("Up");
-		btnUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnUp.addActionListener(
+			(ActionEvent e) -> {
 				controller.moveUp();
 				mainPanel.repaint();
 			}
-		});
+		);
 		
 		JButton btnDown = new JButton("Down");
 		btnDown.addActionListener(new ActionListener() {
@@ -138,21 +143,34 @@ public class LabyrinthView extends JFrame{
 		buttonPanel.setLayout(gl_buttonPanel);
 		
 		//Register application global key listeners
+//		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+//		  .addKeyEventDispatcher(new KeyEventDispatcher() {
+//		      @Override
+//		      public boolean dispatchKeyEvent(KeyEvent ev) {
+//					switch (ev.getKeyCode()) {
+//						case VK_UP: controller.moveUp(); break;
+//						case VK_DOWN: controller.moveDown(); break;
+//						case VK_LEFT: controller.moveLeft(); break;
+//						case VK_RIGHT: controller.moveRight(); break;
+//					}
+//					System.out.println(ev.getKeyCode() + ", " + VK_UP);
+//					mainPanel.repaint();
+//					return false;
+//				}
+//		});
+		
+		// with lambda
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
-		  .addKeyEventDispatcher(new KeyEventDispatcher() {
-		      @Override
-		      public boolean dispatchKeyEvent(KeyEvent ev) {
+		  .addKeyEventDispatcher(ev -> {
 					switch (ev.getKeyCode()) {
 						case VK_UP: controller.moveUp(); break;
 						case VK_DOWN: controller.moveDown(); break;
 						case VK_LEFT: controller.moveLeft(); break;
 						case VK_RIGHT: controller.moveRight(); break;
 					}
-					System.out.println(ev.getKeyCode() + ", " + VK_UP);
 					mainPanel.repaint();
 					return false;
-				}
-		});
+			});
 
 //		KeyListener keyListener = new KeyAdapter() {
 //			@Override
