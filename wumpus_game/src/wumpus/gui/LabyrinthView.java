@@ -53,7 +53,7 @@ public class LabyrinthView extends JFrame{
 				EnumSet<CaveState> states = EnumSet.of(caves[i][j]);
 				if (i == labyrinth.getHeroY() && j == labyrinth.getHeroX())
 					states.add(HERO); //show hero icon
-				CaveButton btn = new CaveButton(states);				
+				CaveButton btn = new CaveButton(labyrinth, j, i);				
 				caveButtons[i * labyrinth.getWidth() + j] = btn;
 				mainPanel.add(btn);
 			}
