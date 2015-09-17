@@ -1,16 +1,25 @@
 package wumpus.gui;
 
+import static java.awt.event.KeyEvent.VK_DOWN;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_UP;
+import static wumpus.model.CaveState.HERO;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.EnumSet;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,8 +27,6 @@ import javax.swing.JPanel;
 import wumpus.controller.LabyrinthController;
 import wumpus.model.CaveState;
 import wumpus.model.Labyrinth;
-import wumpus.model.Position;
-import static wumpus.model.CaveState.*;
 
 public class LabyrinthView extends JFrame{
 	private Labyrinth labyrinth;
@@ -129,6 +136,40 @@ public class LabyrinthView extends JFrame{
 					.addContainerGap(17, Short.MAX_VALUE))
 		);
 		buttonPanel.setLayout(gl_buttonPanel);
+		
+		//Register application global key listeners
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+		  .addKeyEventDispatcher(new KeyEventDispatcher() {
+		      @Override
+		      public boolean dispatchKeyEvent(KeyEvent ev) {
+					switch (ev.getKeyCode()) {
+						case VK_UP: controller.moveUp(); break;
+						case VK_DOWN: controller.moveDown(); break;
+						case VK_LEFT: controller.moveLeft(); break;
+						case VK_RIGHT: controller.moveRight(); break;
+					}
+					System.out.println(ev.getKeyCode() + ", " + VK_UP);
+					mainPanel.repaint();
+					return false;
+				}
+		});
+
+//		KeyListener keyListener = new KeyAdapter() {
+//			@Override
+//			public void keyPressed(KeyEvent ev) {
+//				switch (ev.getKeyCode()) {
+//				case VK_UP: controller.moveUp(); break;
+//				case VK_DOWN: controller.moveDown(); break;
+//				case VK_LEFT: controller.moveLeft(); break;
+//				case VK_RIGHT: controller.moveRight(); break;
+//				}
+//				System.out.println(ev.getKeyCode() + ", " + VK_UP);
+//				mainPanel.repaint();
+//			}		
+//		};
+//		addKeyListener(keyListener);
+		
+		// show the window
 		setVisible(true);
 	}
 	
