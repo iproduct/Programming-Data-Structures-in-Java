@@ -25,6 +25,40 @@ public class LabyrinthController {
 		+ ", Y=" + labyrinth.getHeroY());		
 	}
 	
+	public void moveUp() {
+		int hx = labyrinth.getHeroX();
+		int hy = labyrinth.getHeroY();
+		if (hy > 0) {
+			labyrinth.setHeroY(hy - 1);
+		}
+		System.out.println("Hero X=" + labyrinth.getHeroX() 
+		+ ", Y=" + labyrinth.getHeroY());		
+		
+	}
+
+	public void moveLeft() {
+		int hx = labyrinth.getHeroX();
+		int hy = labyrinth.getHeroY();
+		if (hx > 0) {
+			labyrinth.setHeroX(hx - 1);
+		}
+		System.out.println("Hero X=" + labyrinth.getHeroX() 
+		+ ", Y=" + labyrinth.getHeroY());		
+		
+	}
+
+	public void moveRight() {
+		int hx = labyrinth.getHeroX();
+		int hy = labyrinth.getHeroY();
+		if (hx < labyrinth.getWidth() - 1) {
+			labyrinth.setHeroX(hx + 1);
+		}
+		System.out.println("Hero X=" + labyrinth.getHeroX() 
+		+ ", Y=" + labyrinth.getHeroY());		
+		
+	}
+
+	
 	public static void main(String[] args) {
 		Labyrinth lab = new Labyrinth(
 				Labyrinth.WIDTH, Labyrinth.HEIGHT, //Labyrinth size
@@ -40,5 +74,6 @@ public class LabyrinthController {
 		
 		LabyrinthController c = new LabyrinthController(lab);
 	}
+
 
 }

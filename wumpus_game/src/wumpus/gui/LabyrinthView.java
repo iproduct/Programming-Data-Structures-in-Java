@@ -65,7 +65,9 @@ public class LabyrinthView extends JFrame{
 		
 		JButton btnUp = new JButton("Up");
 		btnUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
+				controller.moveUp();
+				mainPanel.repaint();
 			}
 		});
 		
@@ -80,12 +82,16 @@ public class LabyrinthView extends JFrame{
 		JButton btnLeft = new JButton("Left");
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controller.moveLeft();
+				mainPanel.repaint();
 			}
 		});
 		
 		JButton btnRight = new JButton("Right");
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				controller.moveRight();
+				mainPanel.repaint();
 			}
 		});
 		GroupLayout gl_buttonPanel = new GroupLayout(buttonPanel);
@@ -126,7 +132,4 @@ public class LabyrinthView extends JFrame{
 		setVisible(true);
 	}
 	
-	public static void main(String[] args){
-		
-	}
 }
