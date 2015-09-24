@@ -25,7 +25,14 @@ import javax.swing.JPanel;
 import wumpus.controller.LabyrinthController;
 import wumpus.model.CaveState;
 import wumpus.model.Labyrinth;
-
+/**
+ * MVC View for {@link wumpus.controller.LabyrinthController LabyrinthController} 
+ * built using <a href="https://eclipse.org/windowbuilder/">WindowBuilder</a>
+ * plugin.
+ * 
+ * @author Trayan Iliev
+ *
+ */
 public class LabyrinthView extends JFrame{
 	private Labyrinth labyrinth;
 	private LabyrinthController controller;

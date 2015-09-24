@@ -6,9 +6,9 @@ import wumpus.gui.LabyrinthView;
 import wumpus.model.Labyrinth;
 import wumpus.model.Position;
 
-public class LabyrinthController {
-	private Labyrinth labyrinth;
-	private LabyrinthView view;
+public class LabyrinthController { //Controller
+	private Labyrinth labyrinth; //Model
+	private LabyrinthView view; //View
 	
 	public LabyrinthController(Labyrinth labyrinth){
 		this.labyrinth = labyrinth;
