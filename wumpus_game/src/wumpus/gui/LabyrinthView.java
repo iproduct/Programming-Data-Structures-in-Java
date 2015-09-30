@@ -1,9 +1,6 @@
 package wumpus.gui;
 
-import static java.awt.event.KeyEvent.VK_DOWN;
-import static java.awt.event.KeyEvent.VK_LEFT;
-import static java.awt.event.KeyEvent.VK_RIGHT;
-import static java.awt.event.KeyEvent.VK_UP;
+import static java.awt.event.KeyEvent.*;
 import static wumpus.model.CaveState.HERO;
 
 import java.awt.BorderLayout;
@@ -169,6 +166,7 @@ public class LabyrinthView extends JFrame{
 		// with lambda
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 		  .addKeyEventDispatcher(ev -> {
+			  	if(ev.getID() == KEY_PRESSED) {
 					switch (ev.getKeyCode()) {
 						case VK_UP: controller.moveUp(); break;
 						case VK_DOWN: controller.moveDown(); break;
@@ -176,7 +174,8 @@ public class LabyrinthView extends JFrame{
 						case VK_RIGHT: controller.moveRight(); break;
 					}
 					mainPanel.repaint();
-					return false;
+			  	}
+				return false;
 			});
 
 //		KeyListener keyListener = new KeyAdapter() {
