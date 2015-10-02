@@ -1,9 +1,6 @@
 package wumpus.model;
 
-import static wumpus.model.CaveState.EMPTY;
-import static wumpus.model.CaveState.GOLD;
-import static wumpus.model.CaveState.PIT;
-import static wumpus.model.CaveState.WUMPUS;
+import static wumpus.model.CaveState.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +40,15 @@ public class Labyrinth {
 			caves[pitsPos[i].getY()][pitsPos[i].getX()] = PIT;
 		}
 	}
+	
+	public Labyrinth(int width, int height, Position wumpusPos, Position goldPos,
+			Position[] pitsPos, Position[] rocksPos) {
+		this(width, height, wumpusPos, goldPos, pitsPos); // Call already defined constructor without arguments
+		for(int i = 0; i < rocksPos.length; i++) {
+			caves[rocksPos[i].getY()][rocksPos[i].getX()] = ROCK;
+		}
+	}
+
 
 	public int getWidth() {
 		return width;

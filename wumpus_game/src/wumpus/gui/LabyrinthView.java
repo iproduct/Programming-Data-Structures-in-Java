@@ -1,27 +1,35 @@
 package wumpus.gui;
 
-import static java.awt.event.KeyEvent.*;
-import static wumpus.model.CaveState.HERO;
+import static java.awt.event.KeyEvent.KEY_PRESSED;
+import static java.awt.event.KeyEvent.VK_DOWN;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_UP;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
-import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.util.EnumSet;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.border.TitledBorder;
 
 import wumpus.controller.LabyrinthController;
 import wumpus.model.CaveState;
 import wumpus.model.Labyrinth;
+
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 /**
  * MVC View for {@link wumpus.controller.LabyrinthController LabyrinthController} 
  * built using <a href="https://eclipse.org/windowbuilder/">WindowBuilder</a>
@@ -35,6 +43,11 @@ public class LabyrinthView extends JFrame{
 	private LabyrinthController controller;
 	private CaveButton[] caveButtons;
 	
+	public static final String[] SEARCH_ALGORITHMS = {
+		"Depth First Search (DFS)", 
+		"Breadth First Search (BFS)"
+	};
+	
 	//Swing components
 	JPanel mainPanel = new JPanel(); //main game panel
 	JPanel buttonPanel = new JPanel(); //bottom button panel
@@ -45,8 +58,18 @@ public class LabyrinthView extends JFrame{
 		this.labyrinth = labyrinth;
 		this.controller = controller;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(600,600);
+		setSize(800,600);
 		setLocationRelativeTo(null);
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+			System.err.println("Nimbus look and feel not available. Using default.");
+		}
 		
 		// Main game panel
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -64,6 +87,7 @@ public class LabyrinthView extends JFrame{
 				mainPanel.add(btn);
 			}
 		}
+		buttonPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 				
 		
 		// Bottom button panel
@@ -110,11 +134,14 @@ public class LabyrinthView extends JFrame{
 				mainPanel.repaint();
 			}
 		});
+		
+		JPanel pathSearchPanel = new JPanel();
+		pathSearchPanel.setBorder(new TitledBorder(null, " Path Search", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GroupLayout gl_buttonPanel = new GroupLayout(buttonPanel);
 		gl_buttonPanel.setHorizontalGroup(
 			gl_buttonPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_buttonPanel.createSequentialGroup()
-					.addContainerGap(197, Short.MAX_VALUE)
+				.addGroup(gl_buttonPanel.createSequentialGroup()
+					.addGap(91)
 					.addComponent(btnLeft, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
 					.addGap(10)
 					.addGroup(gl_buttonPanel.createParallelGroup(Alignment.LEADING)
@@ -126,7 +153,8 @@ public class LabyrinthView extends JFrame{
 						.addGroup(gl_buttonPanel.createSequentialGroup()
 							.addGap(79)
 							.addComponent(btnRight, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
-					.addGap(165))
+					.addGap(105)
+					.addComponent(pathSearchPanel, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
 		);
 		gl_buttonPanel.setVerticalGroup(
 			gl_buttonPanel.createParallelGroup(Alignment.LEADING)
@@ -134,16 +162,46 @@ public class LabyrinthView extends JFrame{
 					.addContainerGap()
 					.addGroup(gl_buttonPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_buttonPanel.createSequentialGroup()
-							.addGap(57)
-							.addComponent(btnDown))
-						.addGroup(gl_buttonPanel.createSequentialGroup()
-							.addComponent(btnUp)
-							.addGap(5)
-							.addGroup(gl_buttonPanel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnRight)
-								.addComponent(btnLeft))))
-					.addContainerGap(17, Short.MAX_VALUE))
+							.addGroup(gl_buttonPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_buttonPanel.createSequentialGroup()
+									.addGap(57)
+									.addComponent(btnDown))
+								.addGroup(gl_buttonPanel.createSequentialGroup()
+									.addComponent(btnUp)
+									.addGap(5)
+									.addGroup(gl_buttonPanel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(btnRight)
+										.addComponent(btnLeft))))
+							.addContainerGap(23, Short.MAX_VALUE))
+						.addComponent(pathSearchPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)))
 		);
+		pathSearchPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JComboBox<String> cbSelectAlgorithm = new JComboBox<>();
+		cbSelectAlgorithm.setModel(
+			new DefaultComboBoxModel<>(new String[] {
+					"Depth First Search (DFS)", 
+					"Breadth First Search (BFS)"}) //SEARCH_ALGORITHMS
+		);
+		pathSearchPanel.add(cbSelectAlgorithm);
+		
+		JButton btnStartSearch = new JButton("Start");
+		btnStartSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				controller.startSearch((String)cbSelectAlgorithm.getSelectedItem());
+			}
+		});
+		pathSearchPanel.add(btnStartSearch);
+		
+		JButton btnNextStep = new JButton("Next Step");
+		btnNextStep.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				controller.nextStep();
+				mainPanel.repaint();
+			}
+		});
+		pathSearchPanel.add(btnNextStep);
+		
 		buttonPanel.setLayout(gl_buttonPanel);
 		
 		//Register application global key listeners
@@ -196,5 +254,4 @@ public class LabyrinthView extends JFrame{
 		// show the window
 		setVisible(true);
 	}
-	
 }
