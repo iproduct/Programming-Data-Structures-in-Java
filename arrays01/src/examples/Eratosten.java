@@ -15,9 +15,9 @@ public class Eratosten {
 		// strike out all numbers that are not prime
 		int sqrtN = (int) Math.sqrt(MAX_NUMBER);
 		int j = 0;
-		for(int i = 0; i < sqrtN; i++){
+		while(j < sqrtN){
 			// find the next prime  => j (not striked out)
-			while(a[j] == 0) {
+			while( a[j] == 0) {
 				j++;
 			}
 			
@@ -27,6 +27,8 @@ public class Eratosten {
 				a[indexDel] = 0;
 				k++;
 			}
+			
+			// try with next number
 			j++;
 		}
 		
