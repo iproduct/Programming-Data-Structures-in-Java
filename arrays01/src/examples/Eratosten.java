@@ -1,0 +1,40 @@
+package examples;
+
+import java.util.Arrays;
+
+public class Eratosten {
+	public static final int MAX_NUMBER = 100;
+
+	public static void main(String[] args) {
+		int[] a = new int[MAX_NUMBER - 1];
+		for(int i = 0;  i < MAX_NUMBER - 1; i++) {
+			a[i] = i +2;
+		}
+		System.out.println(Arrays.toString(a));
+		
+		// strike out all numbers that are not prime
+		int sqrtN = (int) Math.sqrt(MAX_NUMBER);
+		int j = 0;
+		for(int i = 0; i < sqrtN; i++){
+			// find the next prime  => j (not striked out)
+			while(a[j] == 0) {
+				j++;
+			}
+			
+			// strike out the numbers that divide on j (only numbers > j*j - others are already stroken out)
+			int k = a[j], indexDel;
+			while((indexDel = a[j] * k - 2) < MAX_NUMBER) {
+				a[indexDel] = 0;
+				k++;
+			}
+			j++;
+		}
+		
+		// print prime number only (not stroken out: a[j] != 0)
+		for(int i = 0; i < MAX_NUMBER - 1; i++)
+			if(a[i] != 0 )
+				System.out.print(a[i] + ", ");
+
+	}
+
+}
