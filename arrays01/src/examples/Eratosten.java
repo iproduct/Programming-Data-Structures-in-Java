@@ -21,7 +21,7 @@ public class Eratosten {
 				j++;
 			}
 			
-			// strike out the numbers that divide on j (only numbers > j*j - others are already stroken out)
+			// strike out the numbers that divide on a[j] (only numbers > a[j]*a[j] - others are already stroken out)
 			int k = a[j], indexDel;
 			while((indexDel = a[j] * k - 2) < MAX_NUMBER) {
 				a[indexDel] = 0;
