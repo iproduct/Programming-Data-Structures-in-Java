@@ -65,7 +65,7 @@ public class DaysOfWeek {
 				index--;
 			}
 		} while(input.length() > 0);
-		return Arrays.copyOf(result, index - 1);
+		return Arrays.copyOf(result, index);
 	}
 	
 	public static void main(String[] args) {
