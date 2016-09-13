@@ -14,11 +14,13 @@ public class TicTacPosition {
 	}
 	
 	public TicTacPosition(TicTacPosition old){
-		int[][] result = new int[SIZE][];
+		int[][] result = new int[SIZE][SIZE];
 		for(int i = 0; i < old.position.length; i ++){
 //			result[i] = Arrays.copyOf(old.position[i], old.position[i].length);
-			for(int j = 0; j < old.position[i].length; j++ )
+			for(int j = 0; j < old.position[i].length; j++ ) {
 				result[i][j] = old.position[i][j];
+			}
+			this.position = result;
 		}
 	}
 	
@@ -38,11 +40,11 @@ public class TicTacPosition {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("+---+---+---+\n");
 		for(int[] row: position) {
-			sb.append("| ");
+			sb.append("|");
 			for(int elem: row) {
-				sb.append(elem == MOVE_X ? "X |": elem == MOVE_O ? "O |" : "  |");
+				sb.append(elem == MOVE_X ? " X |": elem == MOVE_O ? " O |" : "   |");
 			}
-			sb.append("+---+---+---+\n");
+			sb.append("\n+---+---+---+\n");
 		}
 		return sb.toString();
 	}
