@@ -1,6 +1,9 @@
 package examples;
 
+import java.util.Scanner;
+
 public class Array2D {
+	private static Scanner scanner = new Scanner(System.in);
 	
 	public static void printArray2D(int[][] a){
 		for(int[] row: a) {
@@ -9,6 +12,23 @@ public class Array2D {
 			}
 			System.out.println();
 		}
+	}
+	
+	public static int[][] inputArray2D(){
+		System.out.println("Number of rows: ");
+		int rows = scanner.nextInt();
+		System.out.println("Number of columns: ");
+		int cols = scanner.nextInt();
+		int[][] a = new int[rows][cols];
+		
+		//input cells
+		for(int i = 0; i < a.length; i++) {
+			for(int j = 0; j < a[i].length; j++) {
+				System.out.printf("[%d, %d]: ", i, j);
+				a[i][j] = scanner.nextInt();
+			}
+		}
+		return a;
 	}
 
 	public static void main(String[] args) {
@@ -21,7 +41,9 @@ public class Array2D {
 			}
 		}
 		
-		printArray2D(a);
+		int[][] b = inputArray2D();
+		
+		printArray2D(b);
 
 	}
 
