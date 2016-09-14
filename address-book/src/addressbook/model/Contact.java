@@ -1,6 +1,6 @@
 package addressbook.model;
 
-public class Contact {
+public class Contact implements Comparable<Contact>  {
 	private long id;
 	private String name;
 	private String address;
@@ -11,18 +11,16 @@ public class Contact {
 	public Contact() {
 	}
 
-	public Contact(long id, String name, String address, String phone, String email) {
+	public Contact(String name, String address, String phone, String email) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.phone = phone;
 		this.email = email;
 	}
 
-	public Contact(long id, String name, String address, String phone, String email, boolean person) {
+	public Contact(String name, String address, String phone, String email, boolean person) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.phone = phone;
@@ -101,6 +99,11 @@ public class Contact {
 	}
 
 	@Override
+	public int compareTo(Contact other) {
+		return getName().compareToIgnoreCase(other.getName());
+	}
+	
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Contact [id=").append(id).append(", name=").append(name).append(", address=").append(address)
@@ -108,5 +111,5 @@ public class Contact {
 				.append("]");
 		return builder.toString();
 	}
-	
+
 }
