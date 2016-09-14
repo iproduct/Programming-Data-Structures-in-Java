@@ -14,13 +14,11 @@ public class TicTacPosition {
 	}
 	
 	public TicTacPosition(TicTacPosition old){
-		int[][] result = new int[SIZE][SIZE];
 		for(int i = 0; i < old.position.length; i ++){
-//			result[i] = Arrays.copyOf(old.position[i], old.position[i].length);
-			for(int j = 0; j < old.position[i].length; j++ ) {
-				result[i][j] = old.position[i][j];
-			}
-			this.position = result;
+			System.arraycopy(old.position[i], 0, position[i], 0, old.position[i].length);
+//			for(int j = 0; j < old.position[i].length; j++ ) {
+//				position[i][j] = old.position[i][j];
+//			}
 		}
 	}
 	
