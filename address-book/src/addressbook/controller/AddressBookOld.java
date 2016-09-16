@@ -1,16 +1,16 @@
 package addressbook.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
 
 import addressbook.model.Contact;
 import addressbook.model.ContactAddressComparator;
 
-public class AddressBook {
-	private List<Contact> contacts = new ArrayList<>();
+public class AddressBookOld {
+	public static final int MAX_CONTACTS = 1000;
+	private Contact[] contacts = new Contact[MAX_CONTACTS];
+	private int numberContacts = 0;
 	
-	public AddressBook() {
+	public AddressBookOld() {
 		addContact(new Contact("Ivan Petrov", "Sofia 1000", "02 8943567", "ivan@abv.bg"));
 		addContact(new Contact("Dimitar Nikolov", "Sofia, Buzludza 15A, bl.22, flat 12", "02 53454354", "divanov@gmail.com"));
 		addContact(new Contact("Veselin Nikolov", "Sofia 1980", "02 8943567", "ivan@abv.bg"));
@@ -20,35 +20,26 @@ public class AddressBook {
 	
 	public void addContact(Contact c){
 		c.setId(getMaxId() + 1);
-		contacts.add(c);
+		contacts[numberContacts++] = c;
 	}
 	
 	public void sortByName(){
-		Collections.sort(contacts);
+		Arrays.sort(contacts, 0, numberContacts);
 	}
 	
 	public void sortByAddress(){
-		Collections.sort(contacts, new ContactAddressComparator());
-	}
-	
-	public List<Contact> findContactsByName(String namePart){
-		List<Contact> results = new ArrayList<>();	
-		for(Contact c: contacts)
-			if(c.getName().contains(namePart)){
-				results.add(c);
-			}
-		return results;
+		Arrays.sort(contacts, 0, numberContacts, new ContactAddressComparator());
 	}
 	
 	public String formatAllContacts(){
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < contacts.size(); i++ ) {
+		for(int i = 0; i < numberContacts; i++) {
 			sb.append(
 				String.format("| %-20.20s | %-20.20s| %-12.12s| %-24.24s |",
-						contacts.get(i).getName(),
-						contacts.get(i).getAddress(),
-						contacts.get(i).getPhone(),
-						contacts.get(i).getEmail()
+						contacts[i].getName(),
+						contacts[i].getAddress(),
+						contacts[i].getPhone(),
+						contacts[i].getEmail()
 				)
 			).append("\n");
 		}
@@ -57,19 +48,18 @@ public class AddressBook {
 	
 	protected long getMaxId() {
 		long maxId = 0;
-		for(Contact c : contacts){
-			if(c.getId() > maxId)
-				maxId = c.getId();
+		for(int i = 0;  i < numberContacts; i++){
+			if(contacts[i].getId() > maxId)
+				maxId = contacts[i].getId();
 		}
 		return maxId;
 	}
 	
 
 	public static void main(String[] args) {
-		AddressBook myBook = new AddressBook();
-		List<Contact> ivansList = myBook.findContactsByName("Ivan");
-//		myBook.sortByName();
-		System.out.println(ivansList);
+		AddressBookOld myBook = new AddressBookOld();
+		myBook.sortByAddress();
+		System.out.println(myBook.formatAllContacts());
 
 	}
 
