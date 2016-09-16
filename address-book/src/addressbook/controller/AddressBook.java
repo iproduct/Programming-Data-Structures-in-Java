@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import addressbook.controller.exception.ContactAlreadyExistsException;
+import addressbook.controller.exception.ContactDoesNotExistException;
 import addressbook.model.Contact;
 import addressbook.model.ContactAddressComparator;
+import addressbook.model.ContactNameComparator;
 
 public class AddressBook {
 	private List<Contact> contacts = new ArrayList<>();
@@ -20,18 +21,27 @@ public class AddressBook {
 	}
 	
 	public void addContact(Contact c) {
-		if(Collections.binarySearch(contacts, c) >= 0)
-			new ContactAlreadyExistsException(c);
 		c.setId(getMaxId() + 1);
 		contacts.add(c);
 	}
 	
-	public void sortByName(){
-		Collections.sort(contacts);
+	public void editContact(Contact c) throws ContactDoesNotExistException {
+		int indexFound = Collections.binarySearch(contacts, c);
+		if( indexFound < 0)
+			throw new ContactDoesNotExistException(c);
+		contacts.set(indexFound, c);
+	}	
+	
+	public List<Contact> sortByName(){
+		List<Contact> result = new ArrayList<>(contacts);
+		Collections.sort(result, new ContactNameComparator());
+		return result;
 	}
 	
-	public void sortByAddress(){
-		Collections.sort(contacts, new ContactAddressComparator());
+	public List<Contact> sortByAddress(){
+		List<Contact> result = new ArrayList<>(contacts);
+		Collections.sort(result, new ContactAddressComparator());
+		return result;
 	}
 	
 	public List<Contact> findContactsByName(String namePart){
@@ -43,15 +53,16 @@ public class AddressBook {
 		return results;
 	}
 	
-	public String formatAllContacts(){
+	public static String formatAllContacts(List<Contact> contactsToSort){
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < contacts.size(); i++ ) {
+		for(int i = 0; i < contactsToSort.size(); i++ ) {
 			sb.append(
-				String.format("| %-20.20s | %-20.20s| %-12.12s| %-24.24s |",
-						contacts.get(i).getName(),
-						contacts.get(i).getAddress(),
-						contacts.get(i).getPhone(),
-						contacts.get(i).getEmail()
+				String.format("| %d | %-20.20s | %-20.20s| %-12.12s| %-24.24s |",
+						contactsToSort.get(i).getId(),
+						contactsToSort.get(i).getName(),
+						contactsToSort.get(i).getAddress(),
+						contactsToSort.get(i).getPhone(),
+						contactsToSort.get(i).getEmail()
 				)
 			).append("\n");
 		}
@@ -59,20 +70,41 @@ public class AddressBook {
 	}
 	
 	protected long getMaxId() {
-		long maxId = 0;
-		for(Contact c : contacts){
-			if(c.getId() > maxId)
-				maxId = c.getId();
+//		long maxId = 0;
+//		for(Contact c : contacts){
+//			if(c.getId() > maxId)
+//				maxId = c.getId();
+//		}
+//		return maxId;
+		if(contacts.isEmpty()) {
+			return 0L;
+		} else {
+			return Collections.max(contacts).getId();
 		}
-		return maxId;
+	
 	}
 	
+	public List<Contact> getAllContacts() {
+		return contacts;
+	}
 
 	public static void main(String[] args) {
 		AddressBook myBook = new AddressBook();
 		List<Contact> ivansList = myBook.findContactsByName("Ivan");
-//		myBook.sortByName();
-		System.out.println(ivansList);
+		if(!ivansList.isEmpty()){
+			Contact ivan = ivansList.get(0);
+			ivan.setAddress("Plovidiv, ul. Marica 19");
+//			Contact ivan = new Contact("Ivan Petrov", "Plovdiv 1000", "02 8943567", "ivan@abv.bg");
+			try {
+				myBook.editContact(ivan);
+			} catch (ContactDoesNotExistException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+			
+		System.out.println(
+				formatAllContacts(
+						myBook.getAllContacts()));
 
 	}
 

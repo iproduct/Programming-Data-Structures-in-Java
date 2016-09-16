@@ -100,7 +100,7 @@ public class Contact implements Comparable<Contact>  {
 
 	@Override
 	public int compareTo(Contact other) {
-		return getName().compareToIgnoreCase(other.getName());
+		return Long.compare(getId(), other.getId());
 	}
 	
 	@Override
