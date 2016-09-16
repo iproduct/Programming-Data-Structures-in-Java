@@ -3,6 +3,9 @@ package addressbook.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import addressbook.controller.exception.ContactDoesNotExistException;
 import addressbook.model.Contact;
@@ -13,11 +16,13 @@ public class AddressBook {
 	private List<Contact> contacts = new ArrayList<>();
 	
 	public AddressBook() {
-		addContact(new Contact("Ivan Petrov", "Sofia 1000", "02 8943567", "ivan@abv.bg"));
-		addContact(new Contact("Dimitar Nikolov", "Sofia, Buzludza 15A, bl.22, flat 12", "02 53454354", "divanov@gmail.com"));
-		addContact(new Contact("Veselin Nikolov", "Sofia 1980", "02 8943567", "ivan@abv.bg"));
-		addContact(new Contact("Stoyan Petrov", "Sofia, bul. James Bouchier 29", "02 5678899", "spetrov@abv.bg"));
-		addContact(new Contact("Dimitrinka Ivanova", "Sofia, Levski 5, bl. 34, fl. 19", "02 8943567", "dimi1985n@abv.bg"));
+		addContact(new Contact("Ivan Petrov", "Sofia", "Buzludza 10", "02 8943567", "ivan@abv.bg"));
+		addContact(new Contact("Dimitar Nikolov", "Sofia", "Buzludza 15A, bl.22, flat 12", "02 53454354", "divanov@gmail.com"));
+		addContact(new Contact("Veselin Nikolov", "Plovdiv", "Maritza 12", "02 8943567", "ivan@abv.bg"));
+		addContact(new Contact("Stoyan Petrov", "Ruse", "bul. James Bouchier 29", "02 5678899", "spetrov@abv.bg"));
+		addContact(new Contact("Dimitrinka Ivanova", "Sofia", "Levski 5, bl. 34, fl. 19", "02 8943567", "dimi1985n@abv.bg"));
+		addContact(new Contact("Tsvetanka Simova", "Plovdiv", "Levski 5, bl. 34, fl. 19", "02 8943567", "dimi1985n@abv.bg"));
+		addContact(new Contact("Detelina Ivanova", "Varna", "Kraibrezna 5, bl. 34, fl. 19", "02 8943567", "dimi1985n@abv.bg"));
 	}
 	
 	public void addContact(Contact c) {
@@ -57,9 +62,10 @@ public class AddressBook {
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < contactsToSort.size(); i++ ) {
 			sb.append(
-				String.format("| %d | %-20.20s | %-20.20s| %-12.12s| %-24.24s |",
+				String.format("| %d | %-20.20s | %-10.10s | %-20.20s| %-12.12s| %-24.24s |",
 						contactsToSort.get(i).getId(),
 						contactsToSort.get(i).getName(),
+						contactsToSort.get(i).getCity(),
 						contactsToSort.get(i).getAddress(),
 						contactsToSort.get(i).getPhone(),
 						contactsToSort.get(i).getEmail()
@@ -88,6 +94,26 @@ public class AddressBook {
 		return contacts;
 	}
 
+	public Map<String, Integer> getStatisticsByCity(){
+		Map<String, Integer> result = new TreeMap<>();
+		for(Contact c: contacts){
+			String city = c.getCity();
+			if(result.containsKey(city) ) {
+				result.put(city, result.get(city) + 1);
+			} else {
+				result.put(city, 1);
+			}
+		}
+		return result;
+	}
+		
+	public Set<String> getcontactCities() {
+		//collect all cities from contacts and return collected cities
+		
+		return null;
+	}
+	
+	
 	public static void main(String[] args) {
 		AddressBook myBook = new AddressBook();
 		List<Contact> ivansList = myBook.findContactsByName("Ivan");
@@ -101,10 +127,20 @@ public class AddressBook {
 				System.out.println(e.getMessage());
 			}
 		}
-			
+		
 		System.out.println(
 				formatAllContacts(
 						myBook.getAllContacts()));
+		
+		
+		System.out.println("City Statistics:");
+		Map<String, Integer> stat = myBook.getStatisticsByCity();
+		for(String city: stat.keySet()) {
+			System.out.format("%15s -> %5d\n", city, stat.get(city));
+		}
+		
+		
+
 
 	}
 

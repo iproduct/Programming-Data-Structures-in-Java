@@ -3,6 +3,7 @@ package addressbook.model;
 public class Contact implements Comparable<Contact>  {
 	private long id;
 	private String name;
+	private String city;
 	private String address;
 	private String phone;
 	private String email;
@@ -11,17 +12,19 @@ public class Contact implements Comparable<Contact>  {
 	public Contact() {
 	}
 
-	public Contact(String name, String address, String phone, String email) {
+	public Contact(String name, String city, String address, String phone, String email) {
 		super();
 		this.name = name;
+		this.city = city;
 		this.address = address;
 		this.phone = phone;
 		this.email = email;
 	}
 
-	public Contact(String name, String address, String phone, String email, boolean person) {
+	public Contact(String name, String city, String address, String phone, String email, boolean person) {
 		super();
 		this.name = name;
+		this.city = city;
 		this.address = address;
 		this.phone = phone;
 		this.email = email;
@@ -42,6 +45,14 @@ public class Contact implements Comparable<Contact>  {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public String getAddress() {
