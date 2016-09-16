@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import addressbook.controller.exception.ContactAlreadyExistsException;
 import addressbook.model.Contact;
 import addressbook.model.ContactAddressComparator;
 
@@ -18,7 +19,9 @@ public class AddressBook {
 		addContact(new Contact("Dimitrinka Ivanova", "Sofia, Levski 5, bl. 34, fl. 19", "02 8943567", "dimi1985n@abv.bg"));
 	}
 	
-	public void addContact(Contact c){
+	public void addContact(Contact c) {
+		if(Collections.binarySearch(contacts, c) >= 0)
+			new ContactAlreadyExistsException(c);
 		c.setId(getMaxId() + 1);
 		contacts.add(c);
 	}
