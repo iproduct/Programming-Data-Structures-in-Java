@@ -1,11 +1,11 @@
 package examples;
+import static examples.TicTacMove.*;
 
 public class NoneEmptyPositionException extends Exception {
-	private int x, y, value;
-	public NoneEmptyPositionException(int x, int y, int value){
-		super(String.format("Position (%d,%d) = %s is not empty.", 
-			x, y, 
-			(value == TicTacPosition.MOVE_X)? "X" : "O"));
+	private int x, y;
+	private TicTacMove value;
+	public NoneEmptyPositionException(int x, int y, TicTacMove value){
+		super(String.format("Position (%d,%d) = %s is not empty.", x, y, value.name()));
 		this.x = x;
 		this.y = y;
 		this.value = value;
@@ -16,7 +16,7 @@ public class NoneEmptyPositionException extends Exception {
 	public int getY() {
 		return y;
 	}
-	public int getValue() {
+	public TicTacMove getValue() {
 		return value;
 	}
 }

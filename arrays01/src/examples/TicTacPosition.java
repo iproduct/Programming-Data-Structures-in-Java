@@ -1,14 +1,11 @@
 package examples;
 
-import java.util.Arrays;
+import static examples.TicTacMove.*;
 
 public class TicTacPosition {
 	public static final int SIZE = 3;
-	public static final int EMPTY = 0;
-	public static final int MOVE_X = 1;
-	public static final int MOVE_O = 2;
 	
-	private int[][] position = new int[SIZE][SIZE];
+	private TicTacMove[][] position = new TicTacMove[SIZE][SIZE];
 
 	public TicTacPosition() {
 	}
@@ -22,7 +19,7 @@ public class TicTacPosition {
 		}
 	}
 	
-	public TicTacPosition move(int who, int x, int y) throws NoneEmptyPositionException{
+	public TicTacPosition move(TicTacMove move, int x, int y) throws NoneEmptyPositionException{
 		if(position[x - 1][y - 1] != EMPTY)
 			throw new NoneEmptyPositionException(x, y, position[x - 1][y - 1]);
 		
@@ -30,17 +27,17 @@ public class TicTacPosition {
 		TicTacPosition newPos = new TicTacPosition(this);
 		
 		//make move
-		newPos.position[x - 1][y - 1] = who;
+		newPos.position[x - 1][y - 1] = move;
 		return newPos;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("+---+---+---+\n");
-		for(int[] row: position) {
+		for(TicTacMove[] row: position) {
 			sb.append("|");
-			for(int elem: row) {
-				sb.append(elem == MOVE_X ? " X |": elem == MOVE_O ? " O |" : "   |");
+			for(TicTacMove elem: row) {
+				sb.append(elem);
 			}
 			sb.append("\n+---+---+---+\n");
 		}
