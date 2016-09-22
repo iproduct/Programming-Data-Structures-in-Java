@@ -8,6 +8,9 @@ public class TicTacPosition {
 	private TicTacMove[][] position = new TicTacMove[SIZE][SIZE];
 
 	public TicTacPosition() {
+		for(int i = 0; i < position.length; i++)
+			for(int j = 0; j< position[i].length; j++)
+				position[i][j] = EMPTY;
 	}
 	
 	public TicTacPosition(TicTacPosition old){
@@ -37,7 +40,7 @@ public class TicTacPosition {
 		for(TicTacMove[] row: position) {
 			sb.append("|");
 			for(TicTacMove elem: row) {
-				sb.append(elem);
+				sb.append(" ").append(elem).append(" |");
 			}
 			sb.append("\n+---+---+---+\n");
 		}
