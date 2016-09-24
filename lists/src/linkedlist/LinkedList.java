@@ -21,10 +21,11 @@ public class LinkedList<T> {
 	public void addLast(T item) {
 		if(head == null){
 			head = new Node<>(item);
+			last = head;
 		} else {
 			head = head.addLast(item, last);
+			last = last.getNext();
 		}
-		last = last.getNext();
 		size++;
 	}
 	
@@ -76,6 +77,7 @@ public class LinkedList<T> {
 		checkIndexValid(0);
 		Node<T> removed = head.get(0);
 		head = head.remove(0);
+		size--;
 		return removed.getItem();
 	}
 	
@@ -94,6 +96,11 @@ public class LinkedList<T> {
 		return removed.getItem();
 	}
 	
+	@Override
+	public String toString(){
+		return head.toString();
+	}
+	
 	// Private implementation
 	private void checkIndexValid(int index) throws IndexOutOfBoundsException {
 		if(index < 0 || index >= size || size == 0) throw 
@@ -102,7 +109,20 @@ public class LinkedList<T> {
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		LinkedList<Integer> list = new LinkedList<>();
+		for(int i = 0; i < 10; i++){
+			list.addLast(i);
+		}
+		
+		System.out.println(list.removeFirst());
+		
+		System.out.println(list.getSize());
+		list.add(100, list.getSize()-1);
+		
+		System.out.println(list);
+		System.out.println(list.removeLast());
+		
+		System.out.println(list);
 
 	}
 
