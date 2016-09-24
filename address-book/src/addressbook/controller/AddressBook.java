@@ -30,7 +30,7 @@ public class AddressBook {
 		contacts.add(c);
 	}
 	
-	public void editContact(Contact c) throws ContactDoesNotExistException {
+	public void editContact(Contact c) throws ContactDoesNotExistException  {
 		int indexFound = Collections.binarySearch(contacts, c);
 		if( indexFound < 0)
 			throw new ContactDoesNotExistException(c);

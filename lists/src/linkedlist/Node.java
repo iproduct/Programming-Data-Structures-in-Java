@@ -1,8 +1,8 @@
 package linkedlist;
 
-public class Node<T> {
-	T item; //head
-	Node<T> next; //tail
+class Node<T> {
+	private T item; //head
+	private Node<T> next; //tail
 	
 	Node() {}
 	
@@ -10,6 +10,14 @@ public class Node<T> {
 		this.item = item;
 	}
 	
+	public T getItem() {
+		return item;
+	}
+
+	public Node<T> getNext() {
+		return next;
+	}
+
 	public Node<T> addFirst(T newItem) {
 		Node<T> newHead = new Node<>(newItem);
 		newHead.next = this;
@@ -45,14 +53,15 @@ public class Node<T> {
 	}
 	
 	
-	public void add(T newItem, int index) {
+	public Node<T> add(T newItem, int index) {
 		Node<T> newNode = new Node<>(newItem);
 		if(index > 0) {
 			Node<T> previous = get(index - 1);
 			newNode.next = previous.next;
 			previous.next = newNode;
+			return this;
 		} else {
-			addFirst(newItem);
+			return addFirst(newItem);
 		}
 	}
 	
