@@ -18,15 +18,19 @@ class Node<T> {
 		return next;
 	}
 
+	public void setNext(Node<T> next) {
+		this.next = next;
+	}
+
 	public Node<T> addFirst(T newItem) {
 		Node<T> newHead = new Node<>(newItem);
 		newHead.next = this;
 		return newHead;
 	}
 	
-	public Node<T> addLast(T newItem) {
+	public Node<T> addLast(T newItem, Node<T> last) {
 		Node<T> lastItem = new Node<>(newItem);
-		getLast().next = lastItem;
+		last.next = lastItem;
 		return this;
 	}
 	
@@ -83,20 +87,20 @@ class Node<T> {
 	}
 	
 	public static void main(String[] args) {
-		Node<Integer> list = new Node<>(0);
-		for(int i = 1; i < 10; i++)
-			list.addLast(i);
-		
-		//print list
-//		while(true){
-//			System.out.format("%d, ", list.item);
-//			list = list.next;
-//			if(list == null) break;
-//		}
-		
-		System.out.println(list);
-		list = list.remove(9);	
-		System.out.println(list);		
+//		Node<Integer> list = new Node<>(0);
+//		for(int i = 1; i < 10; i++)
+//			list.addLast(i);
+//		
+//		//print list
+////		while(true){
+////			System.out.format("%d, ", list.item);
+////			list = list.next;
+////			if(list == null) break;
+////		}
+//		
+//		System.out.println(list);
+//		list = list.remove(9);	
+//		System.out.println(list);		
 
 	}
 
