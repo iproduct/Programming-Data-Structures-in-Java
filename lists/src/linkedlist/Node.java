@@ -1,29 +1,29 @@
 package linkedlist;
 
-public class LinkedList<T> {
+public class Node<T> {
 	T item; //head
-	LinkedList<T> next; //tail
+	Node<T> next; //tail
 	
-	LinkedList() {}
+	Node() {}
 	
-	LinkedList(T item) {
+	Node(T item) {
 		this.item = item;
 	}
 	
-	public LinkedList<T> addFirst(T newItem) {
-		LinkedList<T> newHead = new LinkedList<>(newItem);
+	public Node<T> addFirst(T newItem) {
+		Node<T> newHead = new Node<>(newItem);
 		newHead.next = this;
 		return newHead;
 	}
 	
-	public LinkedList<T> addLast(T newItem) {
-		LinkedList<T> lastItem = new LinkedList<>(newItem);
+	public Node<T> addLast(T newItem) {
+		Node<T> lastItem = new Node<>(newItem);
 		getLast().next = lastItem;
 		return this;
 	}
 	
 	
-	public LinkedList<T> get(int index){
+	public Node<T> get(int index){
 		// argument validity check
 		if(index < 0)
 			throw new IndexOutOfBoundsException("There is no element with index required.");
@@ -36,7 +36,7 @@ public class LinkedList<T> {
 		return next.get(--index);
 	}
 	
-	public LinkedList<T> getLast(){
+	public Node<T> getLast(){
 		// recursion bottom
 		if(this.next == null) 
 			return this;
@@ -46,9 +46,9 @@ public class LinkedList<T> {
 	
 	
 	public void add(T newItem, int index) {
-		LinkedList<T> newNode = new LinkedList<>(newItem);
+		Node<T> newNode = new Node<>(newItem);
 		if(index > 0) {
-			LinkedList<T> previous = get(index - 1);
+			Node<T> previous = get(index - 1);
 			newNode.next = previous.next;
 			previous.next = newNode;
 		} else {
@@ -56,8 +56,14 @@ public class LinkedList<T> {
 		}
 	}
 	
-	public T remove (int index) {
-		return null;
+	public Node<T> remove (int index) {
+		if(index == 0)
+			return next;
+		else {
+			Node<T> previous = get(index - 1);
+			previous.next = previous.next.next;
+			return this;
+		}
 	}
 	
 	public String toString(){
@@ -68,7 +74,7 @@ public class LinkedList<T> {
 	}
 	
 	public static void main(String[] args) {
-		LinkedList<Integer> list = new LinkedList<>(0);
+		Node<Integer> list = new Node<>(0);
 		for(int i = 1; i < 10; i++)
 			list.addLast(i);
 		
@@ -80,8 +86,8 @@ public class LinkedList<T> {
 //		}
 		
 		System.out.println(list);
-				
-				
+		list = list.remove(9);	
+		System.out.println(list);		
 
 	}
 
