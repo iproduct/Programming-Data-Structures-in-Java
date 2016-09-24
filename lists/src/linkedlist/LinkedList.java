@@ -60,8 +60,28 @@ public class LinkedList<T> {
 		return null;
 	}
 	
+	public String toString(){
+		if(next == null) //bottom
+			return String.format("%d, ", item);
+		else             //step
+			return String.format("%d, ", item) + next.toString();
+	}
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		LinkedList<Integer> list = new LinkedList<>(0);
+		for(int i = 1; i < 10; i++)
+			list.addLast(i);
+		
+		//print list
+//		while(true){
+//			System.out.format("%d, ", list.item);
+//			list = list.next;
+//			if(list == null) break;
+//		}
+		
+		System.out.println(list);
+				
+				
 
 	}
 
