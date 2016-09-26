@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 
 public class ReversePolishNotationCalculator {
 	Stack<Double> stack = new StackImpl<>();
+	Stack<Double> operandStack = new StackImpl<>();
+	Stack<String> operatorStack = new StackImpl<>();
 	Pattern numberPattern = Pattern.compile("\\d+(\\.\\d+)?");
 	Pattern operationPattern = Pattern.compile("[*+-/~]");
 	
@@ -50,14 +52,70 @@ public class ReversePolishNotationCalculator {
 				}
 			}
 		}
+		return stack.pop();
+	}
+	
+	public String transformToRPN(String expression) {
+		String[] parts = expression.split("\\s+");
+		System.out.println(Arrays.toString(parts));
 		
+		StringBuilder resultExpr = new StringBuilder();
 		
-		return null;
+		double a, b;
+		for(int i = 0; i < parts.length; i++){
+			Matcher numberMatcher = numberPattern.matcher(parts[i]);
+			Matcher operationMatcher = operationPattern.matcher(parts[i]);
+			if( numberMatcher.matches()) {
+				double number = Double.parseDouble(parts[i]);
+				operandStack.push(number);
+			} else if (operationMatcher.matches() && parts[i].length() == 1) {
+				operatorStack.push(parts[i]);
+			} else if ( parts[i].equals(")") ){
+				appendPostfix(resultExpr);
+			}
+		}
+		
+		while(!operatorStack.isEmpty()) {
+			appendPostfix(resultExpr);
+		}
+		
+		return resultExpr.toString();
+	}
+
+	private void appendPostfix(StringBuilder resultExpr) {
+		double a;
+		double b;
+		String operator = operatorStack.pop();
+		switch (operator) {
+		case "+" :
+		case "-" :
+		case "*" :
+		case "/" :
+			a = operandStack.pop();
+			b = operandStack.pop();
+			resultExpr.append(b)
+				.append(" ")
+				.append(a)
+				.append(" ")
+				.append(operator)
+				.append(" ");
+
+			break;
+		case "~" :
+			a = stack.pop();
+			resultExpr.append(a)
+				.append(" ")
+				.append(operator)
+				.append(" ");
+			break;
+		}
 	}
 
 	public static void main(String[] args) {
 		ReversePolishNotationCalculator rpn = new ReversePolishNotationCalculator();
-		rpn.claculate(" 5.12  1.37 2 + 4 * + 3 -");
+		System.out.format("Result is: %20.8f",
+			rpn.claculate(" 5  1 2    +   4 * + 3 -  ")
+		);
 	}
 
 }
