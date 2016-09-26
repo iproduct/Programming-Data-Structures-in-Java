@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class ReversePolishNotationCalculator {
 	Stack<Double> stack = new StackImpl<>();
-	Stack<Double> operandStack = new StackImpl<>();
+	Stack<String> operandStack = new StackImpl<>();
 	Stack<String> operatorStack = new StackImpl<>();
 	Pattern numberPattern = Pattern.compile("\\d+(\\.\\d+)?");
 	Pattern operationPattern = Pattern.compile("[*+-/~]");
@@ -56,7 +56,7 @@ public class ReversePolishNotationCalculator {
 	}
 	
 	public String transformToRPN(String expression) {
-		String[] parts = expression.split("\\s+");
+		String[] parts = expression.split("[\\s(]+");
 		System.out.println(Arrays.toString(parts));
 		
 		StringBuilder resultExpr = new StringBuilder();
@@ -66,8 +66,7 @@ public class ReversePolishNotationCalculator {
 			Matcher numberMatcher = numberPattern.matcher(parts[i]);
 			Matcher operationMatcher = operationPattern.matcher(parts[i]);
 			if( numberMatcher.matches()) {
-				double number = Double.parseDouble(parts[i]);
-				operandStack.push(number);
+				operandStack.push(parts[i]);
 			} else if (operationMatcher.matches() && parts[i].length() == 1) {
 				operatorStack.push(parts[i]);
 			} else if ( parts[i].equals(")") ){
@@ -79,12 +78,11 @@ public class ReversePolishNotationCalculator {
 			appendPostfix(resultExpr);
 		}
 		
-		return resultExpr.toString();
+		return operandStack.pop();
 	}
 
 	private void appendPostfix(StringBuilder resultExpr) {
-		double a;
-		double b;
+		String a, b;
 		String operator = operatorStack.pop();
 		switch (operator) {
 		case "+" :
@@ -93,28 +91,21 @@ public class ReversePolishNotationCalculator {
 		case "/" :
 			a = operandStack.pop();
 			b = operandStack.pop();
-			resultExpr.append(b)
-				.append(" ")
-				.append(a)
-				.append(" ")
-				.append(operator)
-				.append(" ");
-
+			operandStack.push(b + " " + a + " " + operator + " ");
 			break;
 		case "~" :
-			a = stack.pop();
-			resultExpr.append(a)
-				.append(" ")
-				.append(operator)
-				.append(" ");
+			a = operandStack.pop();
+			operandStack.push(a + " " + operator + " ");
 			break;
 		}
 	}
 
 	public static void main(String[] args) {
 		ReversePolishNotationCalculator rpn = new ReversePolishNotationCalculator();
+		String rpnExpr = rpn.transformToRPN("5 + ((1 + 2 ) * 4 ) - 3");
+		System.out.println(rpnExpr);
 		System.out.format("Result is: %20.8f",
-			rpn.claculate(" 5  1 2    +   4 * + 3 -  ")
+			rpn.claculate(rpnExpr)
 		);
 	}
 
