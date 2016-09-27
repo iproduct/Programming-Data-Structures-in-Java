@@ -1,7 +1,8 @@
 package binarytree;
 
 class BTNode<T> {
-	public BTNode<T> nil = new BTNode<T>();
+	@SuppressWarnings("rawtypes")
+	public static BTNode nil = new BTNode();
 	
 	BTNode<T> left;
 	BTNode<T> right;
@@ -9,18 +10,15 @@ class BTNode<T> {
 	T info;
 	
 	public BTNode() {
-		this(null);
 	}
 	
 	public BTNode(BTNode<T> parent) {
 		this(null, null, parent, null);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public BTNode(BTNode<T> parent, T info) { //create leaf
-		this(parent);
-		left = nil;
-		right = nil;
-		this.info = info;
+		this(nil, nil, parent, info);
 	}
 	
 	public BTNode(BTNode<T> left, BTNode<T> right, BTNode<T> parent, T info) {
@@ -30,9 +28,9 @@ class BTNode<T> {
 		this.info = info;
 	}
 
-	public int size(BTNode<T> root) {
-		if (root == nil) return 0; //bottom
-		return 1 + size(root.left) + size(root.right); //recursion step
+	public int size() {
+		if (this == nil) return 0; //bottom
+		return 1 + left.size() + right.size(); //recursion step
 	}
 }
 
