@@ -32,5 +32,35 @@ class BTNode<T> {
 		if (this == nil) return 0; //bottom
 		return 1 + left.size() + right.size(); //recursion step
 	}
+	
+	public int height() {
+		if (this == nil) return 0; //bottom
+		return 1 + Math.max(left.height(), right.height()); //recursion step
+	}
+	
+	public void print(int h){
+		for(int i = 0; i < 2*h; i++)
+			System.out.print(" ");
+		if(this == nil)
+			System.out.print("*");
+		else
+			System.out.print(info);
+		System.out.println();
+	}
+	
+	public void show(int h){
+		if(this == nil) //bottom
+			print(h);
+		else {         //step
+			right.show(h+1);
+			print(h);
+			left.show(h+1);
+		}		
+	}
+	
+	public void show(){
+		show(0);
+	}
+
 }
 
