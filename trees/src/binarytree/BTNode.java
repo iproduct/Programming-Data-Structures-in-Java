@@ -63,6 +63,16 @@ class BTNode<T> {
 	
 	public void traverseDF(Visitor<T> visitor) {		
 		Stack<BTNode<T>> stack = new StackImpl<>();
+		stack.push(this);
+		while(!stack.isEmpty()){
+			BTNode<T> current = stack.pop();
+			if(current != nil) {
+				visitor.visit(current.info);
+				stack.push(current.right);
+				stack.push(current.left);
+			}
+		}
+		
 	}
 	
 	public void show(){
