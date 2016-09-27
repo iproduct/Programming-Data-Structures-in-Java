@@ -1,15 +1,26 @@
 package binarytree;
 
 class BTNode<T> {
-	public BTNode<T> nil = new BTNode<>(null);
+	public BTNode<T> nil = new BTNode<T>();
 	
 	BTNode<T> left;
 	BTNode<T> right;
 	BTNode<T> parent;
 	T info;
 	
+	public BTNode() {
+		this(null);
+	}
+	
 	public BTNode(BTNode<T> parent) {
 		this(null, null, parent, null);
+	}
+	
+	public BTNode(BTNode<T> parent, T info) { //create leaf
+		this(parent);
+		left = nil;
+		right = nil;
+		this.info = info;
 	}
 	
 	public BTNode(BTNode<T> left, BTNode<T> right, BTNode<T> parent, T info) {
