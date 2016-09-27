@@ -1,5 +1,7 @@
 package binarytree;
 
+import queue.Queue;
+import queue.QueueImpl;
 import stack.Stack;
 import stack.StackImpl;
 
@@ -10,7 +12,7 @@ class BTNode<T> {
 	BTNode<T> left;
 	BTNode<T> right;
 	BTNode<T> parent;
-	T info;
+	T key;
 	
 	public BTNode() {
 	}
@@ -28,7 +30,7 @@ class BTNode<T> {
 		this.left = left;
 		this.right = right;
 		this.parent = parent;
-		this.info = info;
+		this.key = info;
 	}
 
 	public int size() {
@@ -42,12 +44,12 @@ class BTNode<T> {
 	}
 	
 	public void print(int h){
-		for(int i = 0; i < 2*h; i++)
+		for(int i = 0; i < 3*h; i++)
 			System.out.print(" ");
 		if(this == nil)
 			System.out.print("*");
 		else
-			System.out.print(info);
+			System.out.print(key);
 		System.out.println();
 	}
 	
@@ -67,9 +69,22 @@ class BTNode<T> {
 		while(!stack.isEmpty()){
 			BTNode<T> current = stack.pop();
 			if(current != nil) {
-				visitor.visit(current.info);
+				visitor.visit(current.key);
 				stack.push(current.right);
 				stack.push(current.left);
+			}
+		}
+		
+	}
+	public void traverseBF(Visitor<T> visitor) {		
+		Queue<BTNode<T>> stack = new QueueImpl<>();
+		stack.offer(this);
+		while(!stack.isEmpty()){
+			BTNode<T> current = stack.poll();
+			if(current != nil) {
+				visitor.visit(current.key);
+				stack.offer(current.left);
+				stack.offer(current.right);
 			}
 		}
 		

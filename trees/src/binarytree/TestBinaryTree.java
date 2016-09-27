@@ -25,7 +25,7 @@ public class TestBinaryTree {
 		System.out.println("Tree height: " + root.height());
 		root.show();
 		
-		root.traverseDF(info -> System.out.println(info) );
+		root.traverseBF(info -> System.out.println(info) );
 
 	}
 
