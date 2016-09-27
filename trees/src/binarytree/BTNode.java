@@ -1,5 +1,8 @@
 package binarytree;
 
+import stack.Stack;
+import stack.StackImpl;
+
 class BTNode<T> {
 	@SuppressWarnings("rawtypes")
 	public static BTNode nil = new BTNode();
@@ -56,6 +59,10 @@ class BTNode<T> {
 			print(h);
 			left.show(h+1);
 		}		
+	}
+	
+	public void traverseDF(Visitor<T> visitor) {		
+		Stack<BTNode<T>> stack = new StackImpl<>();
 	}
 	
 	public void show(){
