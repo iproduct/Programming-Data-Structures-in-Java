@@ -28,19 +28,35 @@ public class Graph<T extends Comparable<T>> {
 				Collections.binarySearch(vertices, new Vertice<>(from)));
 		Vertice<T> toVertice =  vertices.get(
 				Collections.binarySearch(vertices, new Vertice<>(to)));
-		fromVertice.getDescendants().add(toVertice);
+		fromVertice.addDescendant(toVertice);
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for(Vertice<T> v : vertices) {
+			sb.append(v).append(" -> ")
+				.append(v.getDescendants()).append("\n");
+		}
+		return sb.toString();
 	}
 
 
 	public static void main(String[] args) {
 		Graph<String> g = new Graph<>();
-		Collection<Vertice<String>> vertices = new TreeSet<>();
-		for(char c = 'A'; c < 'D'; c++) {
-			vertices.add(new Vertice<>("" + c));
+		for(char c = 'D'; c >= 'A'; c--) {
+			g.addVerice(new Vertice<>(""+ c));
 		}
+		g.addEdge("A", "D");
+		g.addEdge("A", "B");
+		g.addEdge("C", "B");
+		g.addEdge("B", "D");
+		g.addEdge("D", "A");
+		g.addEdge("A", "C");
+		g.addEdge("C", "A");
 		
 		
-//		g.addVerice();
+		System.out.println(g);
+		
 
 	}
 
