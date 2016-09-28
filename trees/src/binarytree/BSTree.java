@@ -1,6 +1,7 @@
 package binarytree;
 
-import static binarytree.BTNode.nil;;
+import static binarytree.BTNode.nil;
+
 public class BSTree<K extends Comparable<K>, V>  {
 	BTNode<Entry<K,V>> root;
 	
@@ -34,6 +35,22 @@ public class BSTree<K extends Comparable<K>, V>  {
 			return searchR(root.left, key);
 		else if (key.compareTo(root.entry.getKey()) > 0)
 			return searchR(root.right, key);
+		return null;
+	}
+	
+	public Entry<K,V> searchIter(K key) {
+		BTNode<Entry<K,V>> current = root;
+		while(current != nil) {
+			if(current.entry.getKey().equals(key)) 
+				return current.entry;
+			if(key.compareTo(current.entry.getKey()) < 0) 
+				current = current.left;
+			else if (key.compareTo(current.entry.getKey()) > 0)
+				current = current.right;
+			else 
+				throw new RuntimeException(
+						"Inconsistent implementation of Comparable interface and equals semantics.");
+		}
 		return null;
 	}
 	

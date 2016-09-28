@@ -13,7 +13,7 @@ public class TestBSTree {
 		
 		bst.print();
 		
-		Entry<Integer, String> found = bst.search(7);
+		Entry<Integer, String> found = bst.searchIter(5);
 		
 		System.out.println((found == null) ? "not found"
 				: found.getKey() + ": " + found.getValue());
