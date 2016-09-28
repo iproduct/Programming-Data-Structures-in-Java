@@ -12,7 +12,7 @@ class BTNode<T> {
 	BTNode<T> left;
 	BTNode<T> right;
 	BTNode<T> parent;
-	T key;
+	T entry;
 	
 	public BTNode() {
 	}
@@ -30,7 +30,7 @@ class BTNode<T> {
 		this.left = left;
 		this.right = right;
 		this.parent = parent;
-		this.key = info;
+		this.entry = info;
 	}
 
 	public int size() {
@@ -49,7 +49,7 @@ class BTNode<T> {
 		if(this == nil)
 			System.out.print("*");
 		else
-			System.out.print(key);
+			System.out.print(entry);
 		System.out.println();
 	}
 	
@@ -69,7 +69,7 @@ class BTNode<T> {
 		while(!stack.isEmpty()){
 			BTNode<T> current = stack.pop();
 			if(current != nil) {
-				visitor.visit(current.key);
+				visitor.visit(current.entry);
 				stack.push(current.right);
 				stack.push(current.left);
 			}
@@ -82,7 +82,7 @@ class BTNode<T> {
 		while(!stack.isEmpty()){
 			BTNode<T> current = stack.poll();
 			if(current != nil) {
-				visitor.visit(current.key);
+				visitor.visit(current.entry);
 				stack.offer(current.left);
 				stack.offer(current.right);
 			}
