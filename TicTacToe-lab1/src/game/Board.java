@@ -20,6 +20,18 @@ public class Board {
 			System.out.println();
 		}
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < cells.length; i++) {
+			for(int j = 0; j < cells[i].length; j++) {
+				sb.append(cells[i][j]);
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
 
 	public static void main(String[] args) {
 		Board board = new Board(3);	
