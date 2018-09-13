@@ -32,6 +32,10 @@ public class Board {
 		}
 		return sb.toString();
 	}
+	
+	public void setCell(CellState player, int x, int y) throws InvalidOperationException {
+		cells[x][y].setState(player);
+	}
 
 	public static void main(String[] args) {
 		Board board = new Board(3);	
