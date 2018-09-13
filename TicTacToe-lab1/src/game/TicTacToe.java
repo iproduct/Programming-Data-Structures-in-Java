@@ -13,9 +13,14 @@ public class TicTacToe {
 	
 	public void init() {
 		int size = inputIntWithValidation("Input board size [Enter for default]: ", true);
-		if(size == 0) 
+		if(size == 0) {
 			size = DEFAULT_SIZE;
+		}
 		board = new Board(size);
+	}
+	
+	public CellState getWinner() {
+		return null;
 	}
 	
 	public void printBoard() {
