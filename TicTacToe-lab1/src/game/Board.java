@@ -36,6 +36,10 @@ public class Board {
 	public void setCell(CellState player, int x, int y) throws InvalidOperationException {
 		cells[x][y].setState(player);
 	}
+	
+	public CellState getCellState(int x, int y) {
+		return cells[x][y].getState();
+	}
 
 	public static void main(String[] args) {
 		Board board = new Board(3);	
