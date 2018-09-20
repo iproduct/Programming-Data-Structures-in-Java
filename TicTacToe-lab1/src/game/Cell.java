@@ -9,7 +9,7 @@ public class Cell {
 		return state;
 	}
 
-	public void setState(CellState state) throws InvalidOperationException {
+	public void setState(CellState state)  {
 		if (this.state == EMPTY) {
 			this.state = state;
 		} else {

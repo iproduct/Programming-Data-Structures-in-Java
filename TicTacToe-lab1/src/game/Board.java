@@ -40,10 +40,14 @@ public class Board {
 	public CellState getCellState(int x, int y) {
 		return cells[x][y].getState();
 	}
-
-	public static void main(String[] args) {
-		Board board = new Board(3);	
-		board.print();
+	
+	public int getSize( ) {
+		return cells.length;
 	}
+
+//	public static void main(String[] args) {
+//		Board board = new Board(3);	
+//		board.print();
+//	}
 
 }

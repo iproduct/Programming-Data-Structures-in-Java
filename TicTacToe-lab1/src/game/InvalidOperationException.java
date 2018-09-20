@@ -1,6 +1,6 @@
 package game;
 
-public class InvalidOperationException extends Exception {
+public class InvalidOperationException extends RuntimeException {
 
 	public InvalidOperationException() {
 	}
