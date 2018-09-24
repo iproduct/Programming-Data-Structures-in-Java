@@ -1,9 +1,14 @@
 package addressbook.view;
 
-public class AddressBookPresentation {
+import addressbook.control.AddressBook;
 
-	public AddressBookPresentation() {
-		// TODO Auto-generated constructor stub
+public class AddressBookPresentation {
+	private AddressBook controller;
+	
+	
+
+	public AddressBookPresentation(AddressBook controller) {
+		this.controller = controller;
 	}
 
 	public static void main(String[] args) {
