@@ -83,8 +83,7 @@ public class Address {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Address [country=").append(country).append(", city=").append(city).append(", addres=")
-				.append(addres).append("]");
+		builder.append(country).append(", ").append(city).append(", ").append(addres);
 		return builder.toString();
 	}
 
