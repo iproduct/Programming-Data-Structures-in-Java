@@ -21,16 +21,20 @@ public class AddressBookPresentation {
 
 	public AddressBookPresentation(AddressBook controller) {
 		this.controller = controller;
-		
+		for(Object[] o: options) {
+			optionsMap.put((Integer) o[0], (String) o[1]);
+		}
 	}
 	
-//	public showMainMenu() {
-//	
-//	}
+	public void showMainMenu() {
+		for(Integer key: optionsMap.keySet()) {
+			System.out.printf("| %d | %-50.50s |\n", key, optionsMap.get(key));
+		}
+	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		AddressBookPresentation presentation = new AddressBookPresentation(null);
+		presentation.showMainMenu();
 	}
 
 }
