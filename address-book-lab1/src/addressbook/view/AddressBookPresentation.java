@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import addressbook.control.AddressBook;
 import addressbook.exceptions.EntityExistsException;
@@ -12,14 +14,23 @@ import addressbook.model.Contact;
 
 public class AddressBookPresentation {
 	private static final Object[][] options = {
-		{1, "List all contacts"},
-		{2, "Add contact"},
-		{3, "Find by first, last name"},
-		{4, "Find by part of first, last name or organization"},
-		{5, "Update contact"},
-		{6, "Delete contact"},
-		{9, "Exit"}
-	};
+			{1, "List all contacts"},
+			{2, "Add contact"},
+			{3, "Find by first, last name"},
+			{4, "Find by part of first, last name or organization"},
+			{5, "Update contact"},
+			{6, "Delete contact"},
+			{9, "Exit"}
+		};
+	private static final String[][] fields = {
+			{"Input first name", "[A-Z][a-z]{1,11}"},
+			{"Input last name ", "[A-Z][a-z]{1,11}"},
+			{"Input organization", ".{0,15}"},
+			{"Input email", "[A-Za-z_0-9\\.]+@(\\w+\\.)+\\w+"},
+			{"Input phone", "\\d{8,12}"},
+			{"Input address", "[\\w\\s]+,[\\w\\s]+,[\\w\\s]+"},
+			{"Input description", ".*"},
+		};
 	private static final Scanner sc = new Scanner(System.in);
 	
 	private AddressBook controller;
@@ -32,18 +43,26 @@ public class AddressBookPresentation {
 		}
 	}
 	
-	public void showMainMenu() {
-		for(Integer key: optionsMap.keySet()) {
-			System.out.printf("| %d | %-50.50s |\n", key, optionsMap.get(key));
-		}
-		int answer = inputIntWithValidation("Choose operation:", true);
-		if (answer == 0) {
-			answer = 1;
-		}
-		
-		switch(answer) {
-		case 1: printContacts(controller.getContacts()); break;
-		}
+	public void showMainMenu() throws EntityExistsException {
+		int answer;
+		do {
+			for (Integer key : optionsMap.keySet()) {
+				System.out.printf("| %d | %-50.50s |\n", key, optionsMap.get(key));
+			}
+			answer = inputIntWithValidation("Choose operation:", true);
+			if (answer == 0) {
+				answer = 1;
+			}
+
+			switch (answer) {
+			case 1:
+				printContacts(controller.getContacts());
+				break;
+			case 2:
+				controller.addContact(inputNewContact());
+				break;
+			}
+		} while (answer != 9);
 	}
 	
 	private static void printContacts(List<Contact> contacts) {
@@ -76,9 +95,37 @@ public class AddressBookPresentation {
 		} while (value <= 0);
 		return value;
 	}
+	
+	private static String inputStringWithRegexValidation(String message, String regex) {
+		Pattern pattern = Pattern.compile(regex);
+		String answer = null;
+		do {
+			System.out.print(message + ": ");
+			String input = sc.nextLine();
+			Matcher matcher = pattern.matcher(input);
+			if(matcher.matches()) {
+				answer = input;
+			} else {
+				System.out.println("Invalid answer. Should match regex '" + regex + "'.");
+			}
+		} while(answer == null);
+		return answer;
+	}
+	
+	public static Contact inputNewContact() {
+		Contact contact = new Contact();
+		contact.setfName(inputStringWithRegexValidation(fields[0][0], fields[0][1]));
+		contact.setlName(inputStringWithRegexValidation(fields[1][0], fields[1][1]));
+		contact.setOrganization(inputStringWithRegexValidation(fields[2][0], fields[2][1]));
+		contact.setEmail(inputStringWithRegexValidation(fields[3][0], fields[3][1]));
+		contact.setMobilePhone(inputStringWithRegexValidation(fields[4][0], fields[4][1]));
+//		contact.setAddress(inputStringWithRegexValidation(fields[5][0], fields[5][1]));
+		contact.setDescription(inputStringWithRegexValidation(fields[6][0], fields[6][1]));
+		return contact;
+	}
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws EntityExistsException {
 		Contact[] sample = {
 				new Contact("Ivan", "Petrov", "ivan@abv.bg", "0898123456"),
 				new Contact("John", "Smith", "john@gogle.com", "04123456789"),
@@ -102,6 +149,7 @@ public class AddressBookPresentation {
 		// Show main menu
 		AddressBookPresentation presentation = 
 				new AddressBookPresentation(book);
+		
 		presentation.showMainMenu();
 	}
 
