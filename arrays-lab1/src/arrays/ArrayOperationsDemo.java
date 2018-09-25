@@ -60,52 +60,70 @@ public class ArrayOperationsDemo {
 			}
 		} while (!sorted);
 	}
-	
+
 	public static int findIndexMin(int[] a, int fromIndex) {
 		int minElem = a[fromIndex];
 		int minIndex = fromIndex;
 		for (int i = fromIndex + 1; i < a.length; i++) {
-			if(a[i] < minElem) {
+			if (a[i] < minElem) {
 				minElem = a[i];
 				minIndex = i;
 			}
 		}
 		return minIndex;
 	}
-	
+
 	public static void sortMinSelect(int[] a) {
-		for(int i = 0; i < a.length - 1; i++) {
+		for (int i = 0; i < a.length - 1; i++) {
 			swap(a, i, findIndexMin(a, i));
 		}
 	}
-	
+
 	public static int findIndexMax(int[] a, int toIndexIncluded) {
 		int maxElem = a[0];
 		int maxIndex = 0;
 		for (int i = 1; i <= toIndexIncluded; i++) {
-			if(a[i] > maxElem) {
+			if (a[i] > maxElem) {
 				maxElem = a[i];
 				maxIndex = i;
 			}
 		}
 		return maxIndex;
 	}
-	
+
 	public static void sortMaxSelect(int[] a) {
-		for(int i = a.length - 1; i > 0; i--) {
+		for (int i = a.length - 1; i > 0; i--) {
 			swap(a, i, findIndexMax(a, i));
+		}
+	}
+
+	public static void sortInsertion(int[] a) {
+		for (int i = 1; i < a.length; i++) {
+
+			// find insertion index j
+			int j = 0;
+			while (j < i && a[i] >= a[j]) {
+				j++;
+			}
+			
+			// insert a[i] in position j
+			int temp = a[i];
+			for (int k = i - 1; k >= j; k--) {
+				a[k + 1] = a[k];
+			}
+			a[j] = temp;
 		}
 	}
 
 	public static void main(String[] args) {
 //		int[] a = inputIntArray();
-		int[] a = {123, 12, 3, 34, 12, 234, 19, 27, 24, 18, 129, 7};
+		int[] a = { 123, 12, 3, 34, 12, 234, 19, 27, 24, 18, 129, 7 };
 		System.out.println(Arrays.toString(a));
 		System.out.println("Sum = " + calculateSum(a));
-		int indexMax = findIndexMax(a, a.length-1);
+		int indexMax = findIndexMax(a, a.length - 1);
 		System.out.println(indexMax);
-		sortMaxSelect(a);
-		reverse(a);
+		sortInsertion(a);
+//		reverse(a);
 		System.out.println(Arrays.toString(a));
 	}
 

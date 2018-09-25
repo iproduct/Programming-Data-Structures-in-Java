@@ -28,7 +28,7 @@ public class AddressBookPresentation {
 			{"Input organization", ".{0,15}"},
 			{"Input email", "[A-Za-z_0-9\\.]+@(\\w+\\.)+\\w+"},
 			{"Input phone", "\\d{8,12}"},
-			{"Input address", "[\\w\\s]+,[\\w\\s]+,[\\w\\s]+"},
+			{"Input address", "([\\w\\s]+),([\\w\\s]+),(.+)"},
 			{"Input description", ".*"},
 		};
 	private static final Scanner sc = new Scanner(System.in);
@@ -68,7 +68,7 @@ public class AddressBookPresentation {
 	private static void printContacts(List<Contact> contacts) {
 		for(Contact contact: contacts) {
 			System.out.printf(
-				"| %-12.12s | %-12.12s | %-20.20s | %-12.12s | %-20.20s |\n", 
+				"| %-12.12s | %-12.12s | %-20.20s | %-12.12s | %-30.30s |\n", 
 				contact.getfName(),
 				contact.getlName(),
 				contact.getEmail(),
@@ -119,7 +119,22 @@ public class AddressBookPresentation {
 		contact.setOrganization(inputStringWithRegexValidation(fields[2][0], fields[2][1]));
 		contact.setEmail(inputStringWithRegexValidation(fields[3][0], fields[3][1]));
 		contact.setMobilePhone(inputStringWithRegexValidation(fields[4][0], fields[4][1]));
-//		contact.setAddress(inputStringWithRegexValidation(fields[5][0], fields[5][1]));
+		
+		do {
+			String addressStr = inputStringWithRegexValidation(fields[5][0], fields[5][1]);
+			Pattern addrPattern = Pattern.compile(fields[5][1]);
+			Matcher addrMatcher = addrPattern.matcher(addressStr);
+			if(addrMatcher.matches() && addrMatcher.groupCount() == 3) {
+	//			for(int i = 0; i <= ; i++) {
+	//				System.out.printf("%d: %s\n", i, addrMatcher.group(i));
+	//			}
+				contact.setAddress(new Address(
+						addrMatcher.group(1), addrMatcher.group(2), addrMatcher.group(3)));
+			} else {
+				System.out.println("Invalid address. Required format: 'Country, City, Address'");
+			}
+		} while (contact.getAddress() == null);
+		
 		contact.setDescription(inputStringWithRegexValidation(fields[6][0], fields[6][1]));
 		return contact;
 	}
