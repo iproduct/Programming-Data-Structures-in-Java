@@ -11,6 +11,25 @@ public class MyLinkedList<T> implements MyList<T>{
 	public Node<T> getFirst() {
 		return first;
 	}
+	
+	@Override
+	public T get(int index) {
+		if(first == null) {
+			throw new IndexOutOfBoundsException("Ivalid index " + index);
+		}
+		
+		Node<T> node = first;
+		int position = 0;
+		
+		while(node.getNext() != null && position < index) {
+			node = node.getNext();
+			position ++;
+		}
+		if(position < index)
+			throw new IndexOutOfBoundsException("Ivalid index " + index);
+		
+		return node.getValue();
+	}
 
 	@Override
 	public void add(T element) {
@@ -102,8 +121,19 @@ public class MyLinkedList<T> implements MyList<T>{
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(first == null) {
+			return 0;
+		}
+		
+		Node<T> node = first;
+		int position = 0;
+		
+		while(node.getNext() != null ) {
+			node = node.getNext();
+			position ++;
+		}
+		
+		return position + 1;
 	}
 	
 	@Override
@@ -120,6 +150,10 @@ public class MyLinkedList<T> implements MyList<T>{
 		list.add(0, "Ruse");
 		list.add(2, "Samokov");
 		
+		System.out.println(list.remove(2));
+		System.out.println(list.remove(0));
+		
+		System.out.println("\nResult list:");
 		Iterator<String> it = list.iterator();
 		
 		while(it.hasNext()) {
@@ -127,6 +161,7 @@ public class MyLinkedList<T> implements MyList<T>{
 		}
 		
 	}
+
 	
 
 }
