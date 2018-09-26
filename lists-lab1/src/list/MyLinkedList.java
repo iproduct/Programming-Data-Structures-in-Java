@@ -62,8 +62,30 @@ public class MyLinkedList<T> implements MyList<T>{
 
 	@Override
 	public T remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		if(index == 0) {
+			if(first == null) {
+				new IndexOutOfBoundsException("Invalid index " + index + " - list is empty.");
+			} else {
+				T result = first.getValue();
+				first = first.getNext();
+				return result;
+			}
+		}
+		
+		Node<T> node = first;
+		int position = 0;
+		
+		while(node.getNext() != null && position < index - 1) {
+			node = node.getNext();
+			position ++;
+		}
+		if(position < index - 1 || node.getNext() == null)
+			throw new IndexOutOfBoundsException("Ivalid index " + index);
+		
+		T result = node.getNext().getValue();
+		node.setNext(node.getNext().getNext());
+		
+		return result;
 	}
 
 	@Override
