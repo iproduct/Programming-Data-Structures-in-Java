@@ -1,10 +1,16 @@
 package btree;
 
+import queue.Queue;
+import queue.QueueImpl;
+import stack.Stack;
+import stack.StackImpl;
+
 public class BTNode<K extends Comparable<K>, V> {
 	K key;
 	V value;
 	BTNode<K,V> left;
 	BTNode<K,V> right;
+	boolean visited;
 
 	public BTNode(K key, V value) {
 		this.key = key;
@@ -16,6 +22,14 @@ public class BTNode<K extends Comparable<K>, V> {
 		this.value = value;
 		this.left = left;
 		this.right = rigth;
+	}
+
+	public boolean isVisited() {
+		return visited;
+	}
+
+	public void setVisited(boolean visited) {
+		this.visited = visited;
 	}
 
 	public K getKey() {
@@ -74,7 +88,43 @@ public class BTNode<K extends Comparable<K>, V> {
 			right.printTree(h + 1);
 	}
 	
+	public void traverseDF(Visitor<K,V> visitor) {
+		if(left != null)
+			left.traverseDF(visitor);
+		visitor.visit(key, value);
+		if(right != null)
+			right.traverseDF(visitor);
+	}
 	
+//	public void traverseDFIter(Visitor<K,V> visitor) {
+//		Stack<BTNode<K,V>> stack = new StackImpl<>();
+//		stack.push(this);
+//		
+//		while(!stack.isEmpty()) {
+//			BTNode<K,V> node = stack.pop();
+//			node.setVisited(true);
+//			if(node.left == null || node.left.isVisited())
+//              visitor.visit(node.getKey(), node.getValue());
+//			if(node.right != null)
+//				stack.push(node.right);
+//			if(node.left != null)
+//				stack.push(node.left);
+//		}
+//	}
+	
+	public void traverseBFIter(Visitor<K,V> visitor) {
+		Queue<BTNode<K,V>> stack = new QueueImpl<>();
+		stack.offer(this);
+		
+		while(!stack.isEmpty()) {
+			BTNode<K,V> node = stack.poll();
+            visitor.visit(node.getKey(), node.getValue());
+			if(node.left != null)
+				stack.offer(node.left);
+			if(node.right != null)
+				stack.offer(node.right);
+		}
+	}
 	
 	@Override
 	public int hashCode() {
@@ -128,7 +178,16 @@ public class BTNode<K extends Comparable<K>, V> {
 		System.out.println(r8.size());
 		System.out.println(r8.depth());
 		
-		r8.printTree(0);
+//		r8.printTree(0);
+		
+		r8.traverseBFIter(
+			new PrintingVisitor<>()
+//			(key, value) -> {
+//				System.out.printf("%d:%d, ", key, value);
+//			}
+		);
+		
+		
 
 	}
 
