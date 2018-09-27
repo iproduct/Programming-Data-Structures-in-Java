@@ -1,30 +1,32 @@
 package queue;
 
 import linkedlist.LinkedList;
+import list.MyLinkedList;
+import list.MyList;
 import stack.Stack;
 import stack.StackImpl;
 
 public class QueueImpl<T> implements Queue<T> {
-	private LinkedList<T> list = new LinkedList<T>();
+	private MyList<T> list = new MyLinkedList<T>();
 	
 	@Override
 	public void offer(T item) {
-		list.addLast(item);
+		list.add(item);
 	}
 
 	@Override
 	public T poll() {
-		return list.removeFirst();
+		return list.remove(0);
 	}
 
 	@Override
 	public T peek() {
-		return list.getFirst();
+		return list.get(0);
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return list.getSize() == 0;
+		return list.size() == 0;
 	}
 
 	
