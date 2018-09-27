@@ -1,22 +1,23 @@
-package binarytree;
+package btree;
 
 public class TestBSTree {
 
 	public static void main(String[] args) {
 		BSTree<Integer,String> bst = new BSTree<>();
 //		bst.print();
-		bst.insert(new Entry<>(12,"twelve"));
-		bst.insert(new Entry<>(3,"three"));
-		bst.insert(new Entry<>(18,"eighteen"));
-		bst.insert(new Entry<>(7,"seven"));
-		bst.insert(new Entry<>(4,"four"));
+		bst.insert(12,"twelve");
+		bst.insert(3,"three");
+		bst.insert(18,"eighteen");
+		bst.insert(7,"seven");
+		bst.insert(4,"four");
+		bst.insert(24, "twenty four");
 		
 		bst.print();
-		
-		Entry<Integer, String> found = bst.searchIter(5);
+		int key = 5;
+		String found = bst.search(key);
 		
 		System.out.println((found == null) ? "not found"
-				: found.getKey() + ": " + found.getValue());
+				: key + ": " + found);
 
 	}
 

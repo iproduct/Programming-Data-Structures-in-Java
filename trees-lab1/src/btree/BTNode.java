@@ -96,21 +96,24 @@ public class BTNode<K extends Comparable<K>, V> {
 			right.traverseDF(visitor);
 	}
 	
-//	public void traverseDFIter(Visitor<K,V> visitor) {
-//		Stack<BTNode<K,V>> stack = new StackImpl<>();
-//		stack.push(this);
-//		
-//		while(!stack.isEmpty()) {
-//			BTNode<K,V> node = stack.pop();
-//			node.setVisited(true);
-//			if(node.left == null || node.left.isVisited())
-//              visitor.visit(node.getKey(), node.getValue());
-//			if(node.right != null)
-//				stack.push(node.right);
-//			if(node.left != null)
-//				stack.push(node.left);
-//		}
-//	}
+	public void traverseDFIter(Visitor<K,V> visitor) {
+		Stack<BTNode<K,V>> stack = new StackImpl<>();
+		stack.push(this);
+		
+		while(!stack.isEmpty()) {
+			BTNode<K,V> node = stack.pop();
+			if(!node.visited) {
+				if(node.right != null)
+					stack.push(node.right);
+				stack.push(node);
+				if(node.left != null)
+					stack.push(node.left);
+			} else {
+				visitor.visit(node.getKey(), node.getValue());
+			}
+			node.setVisited(true);
+		}
+	}
 	
 	public void traverseBFIter(Visitor<K,V> visitor) {
 		Queue<BTNode<K,V>> stack = new QueueImpl<>();
@@ -180,7 +183,7 @@ public class BTNode<K extends Comparable<K>, V> {
 		
 //		r8.printTree(0);
 		
-		r8.traverseBFIter(
+		r8.traverseDFIter(
 			new PrintingVisitor<>()
 //			(key, value) -> {
 //				System.out.printf("%d:%d, ", key, value);
