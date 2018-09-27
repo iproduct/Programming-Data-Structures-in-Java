@@ -1,10 +1,7 @@
 package queue;
 
-import linkedlist.LinkedList;
 import list.MyLinkedList;
 import list.MyList;
-import stack.Stack;
-import stack.StackImpl;
 
 public class QueueImpl<T> implements Queue<T> {
 	private MyList<T> list = new MyLinkedList<T>();
