@@ -57,7 +57,21 @@ public class BTNode<K extends Comparable<K>, V> {
 	}
 	
 	public int depth() {
-		return 0;
+		return Math.max(left != null? left.depth(): 0, right != null? right.depth(): 0) + 1;
+	}
+	
+	public void printNode(int h) {
+		for(int i = 0; i < 5 * h; i++)
+			System.out.print(" ");
+		System.out.println(toString());
+	}
+	
+	public void printTree(int h) {
+		if(left != null)
+			left.printTree(h + 1);
+		printNode(h);
+		if(right != null)
+			right.printTree(h + 1);
 	}
 	
 	@Override
@@ -88,19 +102,20 @@ public class BTNode<K extends Comparable<K>, V> {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[").append(key).append(": ").append(value).append("]");
+		builder.append("[").append(key).append(":").append(value).append("]");
 		return builder.toString();
 	}
 
 	public static void main(String[] args) {
 		//leaves
 		BTNode<Integer, Integer> l1 = new BTNode<>(1,1);
-		BTNode<Integer, Integer> l4 = new BTNode<>(4,4);
+		BTNode<Integer, Integer> l5 = new BTNode<>(5,5);
 		BTNode<Integer, Integer> l7 = new BTNode<>(7,7);
 		BTNode<Integer, Integer> l13 = new BTNode<>(13,13);
 		
 		//branches
-		BTNode<Integer, Integer> b6 = new BTNode<>(6,6,l4,l7);
+		BTNode<Integer, Integer> b4 = new BTNode<>(4,4,null,l5);		
+		BTNode<Integer, Integer> b6 = new BTNode<>(6,6,b4,l7);
 		BTNode<Integer, Integer> b3 = new BTNode<>(3,3,l1,b6);
 		BTNode<Integer, Integer> b14 = new BTNode<>(14,14,l13,null);
 		BTNode<Integer, Integer> b10 = new BTNode<>(10,10,null,b14);
@@ -110,6 +125,8 @@ public class BTNode<K extends Comparable<K>, V> {
 
 		System.out.println(r8.size());
 		System.out.println(r8.depth());
+		
+		r8.printTree(0);
 
 	}
 
