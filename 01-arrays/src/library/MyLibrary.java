@@ -25,11 +25,57 @@ public class MyLibrary {
 	
 	public static void inputBookData(Book book) {
 		System.out.println("Въведете данни за книгата (натиснете <ENTER> ако няма промаяна):");
+		
+		// Input title
 		System.out.println("Заглавие [" + book.getTitle() + "]:");
 		String answer = sc.nextLine();
 		if(answer.length() > 0) {
 			book.setTitle(answer);
 		}
+		
+		// Input authors
+		System.out.println("Автори [" + book.getAuthors() + "]:");
+		answer = sc.nextLine();
+		if(answer.length() > 0) {
+			book.setAuthors(answer);
+		}
+		
+		// Input authors
+		System.out.println("Издател [" + book.getPublisher() + "]:");
+		answer = sc.nextLine();
+		if(answer.length() > 0) {
+			book.setPublisher(answer);
+		}
+		
+		// Input authors
+		System.out.println("ISBN [" + book.getIsbn() + "]:");
+		answer = sc.nextLine();
+		if(answer.length() > 0) {
+			book.setIsbn(answer);
+		}
+		
+		// Input authors
+		System.out.println("Жанр [" + book.getGenre() + "]:");
+		answer = sc.nextLine();
+		if(answer.length() > 0) {
+			book.setGenre(answer);
+		}
+		
+		// Input authors
+		System.out.println("Описанние [" + book.getDescription() + "]:");
+		answer = sc.nextLine();
+		if(answer.length() > 0) {
+			book.setDescription(answer);
+		}
+		
+		// Input authors
+		System.out.println("Ключови думи [" + book.getKeywords() + "]:");
+		answer = sc.nextLine();
+		if(answer.length() > 0) {
+			book.setKeywords(answer);
+		}
+		
+		
 	}
 
 	public static void main(String[] args) {
