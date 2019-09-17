@@ -1,25 +1,48 @@
 package library;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import model.Book;
 
 public class MyLibrary {
+	public static final int MAX_BOOKS = 1000;
 	private static Scanner sc = new Scanner(System.in);
-	private Book[] books;
+	private Book[] books = new Book[MAX_BOOKS];
+	private int numberBooks = 0;
 
 	public MyLibrary(Book[] books) {
-		this.books = books;
+		for(Book book: books) {
+			addBook(book);
+		}
+	}
+	
+	public Book addBook(Book book) {
+		book.setId(numberBooks + 1);
+		books[numberBooks] = book;
+		numberBooks ++;
+		return book;
+	}
+	
+	public Book[] findBooks(String searchString) {
+		Book[] results = new Book[numberBooks];
+		int position = 0;
+		for(int i = 0;  i < numberBooks; i++) {
+			if(books[i].getTitle().toLowerCase().contains(searchString.toLowerCase())) {
+				results[position++] = books[i];
+			}
+		}
+		return Arrays.copyOf(results, position);
 	}
 	
 	public String getBooksCatalog() {
 		StringBuilder sb = new StringBuilder();
-//		for(int i = 0;  i < books.length; i++) {
-//			sb.append(books[i].toString()).append("\n");
-//		}
-		for(Book b : books) {
-			sb.append(b.toString()).append("\n");
+		for(int i = 0;  i < numberBooks; i++) {
+			sb.append(books[i].toString()).append("\n");
 		}
+//		for(Book b : books) {
+//			sb.append(b.toString()).append("\n");
+//		}
 		return sb.toString();
 	}
 	
@@ -29,53 +52,51 @@ public class MyLibrary {
 		// Input title
 		System.out.println("Заглавие [" + book.getTitle() + "]:");
 		String answer = sc.nextLine();
-		if(answer.length() > 0) {
+		if(answer.length() > 0 || book.getTitle() == null) {
 			book.setTitle(answer);
 		}
 		
 		// Input authors
 		System.out.println("Автори [" + book.getAuthors() + "]:");
 		answer = sc.nextLine();
-		if(answer.length() > 0) {
+		if(answer.length() > 0 || book.getAuthors() == null) {
 			book.setAuthors(answer);
 		}
 		
 		// Input authors
 		System.out.println("Издател [" + book.getPublisher() + "]:");
 		answer = sc.nextLine();
-		if(answer.length() > 0) {
+		if(answer.length() > 0 || book.getPublisher() == null) {
 			book.setPublisher(answer);
 		}
 		
 		// Input authors
 		System.out.println("ISBN [" + book.getIsbn() + "]:");
 		answer = sc.nextLine();
-		if(answer.length() > 0) {
+		if(answer.length() > 0 || book.getIsbn() == null) {
 			book.setIsbn(answer);
 		}
 		
 		// Input authors
 		System.out.println("Жанр [" + book.getGenre() + "]:");
 		answer = sc.nextLine();
-		if(answer.length() > 0) {
+		if(answer.length() > 0 || book.getGenre() == null) {
 			book.setGenre(answer);
 		}
 		
 		// Input authors
 		System.out.println("Описанние [" + book.getDescription() + "]:");
 		answer = sc.nextLine();
-		if(answer.length() > 0) {
+		if(answer.length() > 0 || book.getDescription() == null) {
 			book.setDescription(answer);
 		}
 		
 		// Input authors
 		System.out.println("Ключови думи [" + book.getKeywords() + "]:");
 		answer = sc.nextLine();
-		if(answer.length() > 0) {
+		if(answer.length() > 0 || book.getKeywords() == null) {
 			book.setKeywords(answer);
 		}
-		
-		
 	}
 
 	public static void main(String[] args) {
@@ -92,7 +113,18 @@ public class MyLibrary {
 		
 		Book newBook = new Book();
 		inputBookData(newBook);
-		System.out.println(newBook);
+		lib.addBook(newBook);
+		
+		//Print all books report
+		System.out.println(lib.getBooksCatalog());
+		
+		//Serach books
+		System.out.println("Въведете низ за търсене:");
+		String searchStr = sc.nextLine();
+		Book[] found = lib.findBooks(searchStr);
+		for(Book b: found) {
+			System.out.println(b);
+		}
 
 	}
 
