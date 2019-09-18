@@ -11,8 +11,8 @@ public class Labirint {
 			{-1,-2,-1,-1,-1,-2}
 	};
 	
-	public static final Cell START = new Cell(0, 0, '.');
-	public static final Cell END = new Cell(5, 3, '.');
+	public static final Cell START = new Cell(0, 0);
+	public static final Cell END = new Cell(5, 3);
 	
 	public static Cell[] findPath(int[][] lab, Cell start, Cell target, int len) {
 		lab[start.y][start.x] = (char) ('0' + len);
@@ -44,16 +44,16 @@ public class Labirint {
 		Cell[] result = new Cell[4];
 		int pos = 0;
 		if(cell.x > 0 && lab[cell.y][cell.x - 1] != -2) {
-			result[pos++] = new Cell(cell.x - 1, cell.y, lab[cell.y][cell.x - 1]);
+			result[pos++] = new Cell(cell.x - 1, cell.y);
 		}
 		if(cell.y > 0 && lab[cell.y - 1][cell.x] != -2) {
-			result[pos++] = new Cell(cell.x, cell.y - 1, lab[cell.y - 1][cell.x]);
+			result[pos++] = new Cell(cell.x, cell.y - 1);
 		}
 		if(cell.x < lab[0].length - 1 && lab[cell.y][cell.x + 1] != -2) {
-			result[pos++] = new Cell(cell.x + 1, cell.y, lab[cell.y][cell.x + 1]);
+			result[pos++] = new Cell(cell.x + 1, cell.y);
 		}
 		if(cell.y < lab.length-1 && lab[cell.y + 1][cell.x] != -2) {
-			result[pos++] = new Cell(cell.x, cell.y + 1, lab[cell.y + 1][cell.x]);
+			result[pos++] = new Cell(cell.x, cell.y + 1);
 		}
 		return Arrays.copyOf(result, pos);
 	}
@@ -72,7 +72,7 @@ public class Labirint {
 		}
 		System.out.println();
 		
-		Cell[] neighbours = findEmptyNeighbours(labirint, new Cell(4, 2, '.'));
+		Cell[] neighbours = findEmptyNeighbours(labirint, new Cell(4, 2));
 		System.out.println(Arrays.toString(neighbours));
 	}
 
