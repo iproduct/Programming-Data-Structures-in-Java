@@ -17,11 +17,18 @@ public class Labirint {
 	public static Cell[] findPath(char[][] lab, Cell start, Cell target) {
 		// Recursion bottom
 		if(start.equals(target)) {
+			lab[target.y][target.x] = 0;
 			return new Cell[] { target };
 		}
 		
 		// Recursion Step 
 		Cell[] emptyNeighbours = findEmptyNeighbours(lab, start);
+		
+		for(Cell nbr: emptyNeighbours) {
+			if(lab[nbr.y][nbr.x] == '.') {
+				Cell[] path = findPath(lab, nbr, target);
+			}
+		}
 		
 		return new Cell[0];
 	}
