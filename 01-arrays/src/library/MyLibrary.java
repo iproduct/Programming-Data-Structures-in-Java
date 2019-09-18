@@ -36,13 +36,20 @@ public class MyLibrary {
 	}
 	
 	public String getBooksCatalog() {
+		//Copy in new array
+		Book[] results = Arrays.copyOf(books, numberBooks);
+		
+		// Sort books by title
+		Arrays.sort(results);
+		
+		// Generate report
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0;  i < numberBooks; i++) {
-			sb.append(books[i].toString()).append("\n");
-		}
-//		for(Book b : books) {
-//			sb.append(b.toString()).append("\n");
+//		for(int i = 0;  i < numberBooks; i++) {
+//			sb.append(books[i].toString()).append("\n");
 //		}
+		for(Book b : results) {
+			sb.append(b.toString()).append("\n");
+		}
 		return sb.toString();
 	}
 	
