@@ -17,11 +17,16 @@ public class ArraysSort {
 			new Book("Open Data Structures (in Java)", "Pat Morin", "Programming"),
 			new Book("Java Data", "Particle", "Programming"),
 		};
-		Arrays.sort(sampleBooks, new BookAuthorComparator());
+//		Arrays.sort(sampleBooks, new BookAuthorComparator());
+		Arrays.sort(sampleBooks);
 		for(Book b: sampleBooks) {
 			System.out.println(b);
 		}
-
+		
+		Book bookToSearch = new Book("Thinking in Java - 4th edition", "", "");
+		int foundIndex = Arrays.binarySearch(sampleBooks, bookToSearch);
+		
+		System.out.println("Found on index: " + foundIndex);
 	}
 
 }
