@@ -28,7 +28,7 @@ public class Labirint {
 		Cell[] minPath = null;
 		
 		for(Cell nbr: emptyNeighbours) {
-			if(lab[nbr.y][nbr.x] == -1) {
+			if(lab[nbr.y][nbr.x] == -1 || lab[nbr.y][nbr.x] > len + 1) {
 				Cell[] path = findPath(lab, nbr, target, len+1);
 				if(minPath == null || (path != null && path.length < minPath.length)) {
 					minPath = path;
@@ -78,13 +78,14 @@ public class Labirint {
 	public static void main(String[] args) {
 		printLabirint(labirint);
 		Cell[] path = findPath(labirint, START, END, 0);
+		System.out.println("Path Found:");
 		for(Cell c: path) {
 			System.out.print("[" + c.x + ", " + c.y + "] -> ");
 		}
 		System.out.println();
 		
-		Cell[] neighbours = findEmptyNeighbours(labirint, new Cell(4, 2));
-		System.out.println(Arrays.toString(neighbours));
+//		Cell[] neighbours = findEmptyNeighbours(labirint, new Cell(4, 2));
+//		System.out.println(Arrays.toString(neighbours));
 	}
 
 }
