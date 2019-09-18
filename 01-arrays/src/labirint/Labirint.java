@@ -70,7 +70,10 @@ public class Labirint {
 	
 	public static void printLabirint(int[][] lab) {
 		for(int[] row: lab) {
-			System.out.println(Arrays.toString(row));
+			for(int cell: row) {
+				System.out.printf("%3s |", cell);
+			}
+			System.out.println();
 		}
 		System.out.println();
 	}
@@ -80,7 +83,7 @@ public class Labirint {
 		Cell[] path = findPath(labirint, START, END, 0);
 		System.out.println("Path Found:");
 		for(Cell c: path) {
-			System.out.print("[" + c.x + ", " + c.y + "] -> ");
+			System.out.print("[" + c.x + "," + c.y + "]->");
 		}
 		System.out.println();
 		
