@@ -3,11 +3,9 @@ package labirint;
 public class Cell {
 	public int x;
 	public int y;
-	public char state;
-	public Cell(int x, int y, char state) {
+	public Cell(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.state = state;
 	}
 	@Override
 	public int hashCode() {
@@ -34,7 +32,7 @@ public class Cell {
 	}
 	@Override
 	public String toString() {
-		return "Cell [x=" + x + ", y=" + y + ", state=" + state + "]";
+		return "Cell [x=" + x + ", y=" + y + "]";
 	}
 	
 	

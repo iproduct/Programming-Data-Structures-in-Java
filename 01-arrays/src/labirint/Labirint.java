@@ -15,29 +15,39 @@ public class Labirint {
 	public static final Cell END = new Cell(5, 3);
 	
 	public static Cell[] findPath(int[][] lab, Cell start, Cell target, int len) {
-		lab[start.y][start.x] = (char) ('0' + len);
+		lab[start.y][start.x] = len;
 		System.out.println(start);
 		printLabirint(lab);
 		// Recursion bottom
 		if(start.equals(target)) {
-			lab[target.y][target.x] = 0;
 			return new Cell[] { target };
 		}
 		
 		// Recursion Step 
 		Cell[] emptyNeighbours = findEmptyNeighbours(lab, start);
+		Cell[] minPath = null;
 		
 		for(Cell nbr: emptyNeighbours) {
-			if(lab[nbr.y][nbr.x] == '.') {
+			if(lab[nbr.y][nbr.x] == -1) {
 				Cell[] path = findPath(lab, nbr, target, len+1);
-//				if(path.length < lab[nbr.y][nbr.x] - '0') {
-//					lab[nbr.y][nbr.x] = (char) ('0' + path.length);
-//					
-//				}
+				if(minPath == null || (path != null && path.length < minPath.length)) {
+					minPath = path;
+				}
 			}
 		}
 		
-		return new Cell[0];
+		Cell[] resultPath = null;
+		// prepend start cell and copy minPath
+		if (minPath != null) {
+			resultPath = new Cell[minPath.length + 1];
+			resultPath[0] = start;
+			int pos = 1;
+			for(Cell c: minPath) {
+				resultPath[pos++] = c;
+			}
+		}
+		
+		return resultPath;
 	}
 	
 	public static Cell[] findEmptyNeighbours(int[][] lab, Cell cell) {
@@ -66,6 +76,7 @@ public class Labirint {
 	}
 
 	public static void main(String[] args) {
+		printLabirint(labirint);
 		Cell[] path = findPath(labirint, START, END, 0);
 		for(Cell c: path) {
 			System.out.print("[" + c.x + ", " + c.y + "] -> ");
