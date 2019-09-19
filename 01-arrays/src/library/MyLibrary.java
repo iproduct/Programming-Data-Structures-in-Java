@@ -125,10 +125,29 @@ public class MyLibrary {
 			book.setKeywords(answer);
 		}
 	}
+	
+	public static String[] proposeKeywords(Book b) {
+		String[] titleWords = b.getTitle().split("[\\s\\.,?!;:+-]+");
+		String[] descriptionWords = b.getDescription().split("[\\s\\.,?!;:+-]+");
+		
+		String[] words = 
+				Arrays.copyOf(titleWords, titleWords.length + descriptionWords.length);
+		for(int i = 0; i < descriptionWords.length; i++) {
+			words[titleWords.length + i] = descriptionWords[i];
+		}
+		
+		return words;
+	}
 
 	public static void main(String[] args) {
 		Book[] sampleBooks = {
-			new Book("Thinking in Java - 4th edition", "Bruce Eckel", "Programming"),
+			new Book("Thinking in Java - 4th edition", "Bruce Eckel", 
+					"Prentice Hall", "1234567890123", "Programming", 
+					"Thinking In Java should be read cover to cover by every Java programmer,\r\n" + 
+					"then kept close at hand for frequent reference. The exercises are challenging,\r\n" + 
+					"and the chapter on Collections is superb! Not only did this book help me to\r\n" + 
+					"pass the Sun Certified Java Programmer exam; it’s also the first book I turn\r\n" + 
+					"to whenever I have a Java question. ", ""),
 			new Book("Въведение в програмирането с Java", "С. Наков и колектив", "Programming"),
 			new Book("Open Data Structures (in Java)", "Pat Morin", "Programming"),
 			new Book("Java Data", "Particle", "Programming"),
@@ -138,20 +157,22 @@ public class MyLibrary {
 		//Print all books report
 		System.out.println(lib.getBooksCatalog());
 		
-		Book newBook = new Book();
-		inputBookData(newBook);
-		lib.addBook(newBook);
+//		Book newBook = new Book();
+//		inputBookData(newBook);
+//		lib.addBook(newBook);
+//		
+//		//Print all books report
+//		System.out.println(lib.getBooksCatalog());
+//		
+//		//Serach books
+//		System.out.println("Въведете низ за търсене:");
+//		String searchStr = sc.nextLine();
+//		Book[] found = lib.findBooks(searchStr);
+//		for(Book b: found) {
+//			System.out.println(b);
+//		}
 		
-		//Print all books report
-		System.out.println(lib.getBooksCatalog());
-		
-		//Serach books
-		System.out.println("Въведете низ за търсене:");
-		String searchStr = sc.nextLine();
-		Book[] found = lib.findBooks(searchStr);
-		for(Book b: found) {
-			System.out.println(b);
-		}
+		System.out.println("Keywords: " + Arrays.toString(proposeKeywords(sampleBooks[0])));
 
 	}
 
