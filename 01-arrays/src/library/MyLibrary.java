@@ -1,12 +1,16 @@
 package library;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 import model.Book;
+import model.WordCount;
 
 public class MyLibrary {
 	public static final int MAX_BOOKS = 1000;
+	public static final int NUM_KEYWORDS = 5;
+	
 	private static Scanner sc = new Scanner(System.in);
 	private Book[] books = new Book[MAX_BOOKS];
 	private int numberBooks = 0;
@@ -136,7 +140,44 @@ public class MyLibrary {
 			words[titleWords.length + i] = descriptionWords[i];
 		}
 		
-		return words;
+		WordCount[] wordCounts = new WordCount[words.length];
+		int number = 0;
+		
+		// Count word occurances
+		for(String word: words) {
+			WordCount newWordCount = new WordCount(word.toLowerCase(), 1);
+			int index = Arrays.binarySearch(wordCounts, 0, number, newWordCount);
+			if(index >= 0) {
+				wordCounts[index].count ++;
+			} else {
+				arrayInsert(wordCounts, -(index+1), number, newWordCount);
+				number++;
+			}
+		}
+		
+		// Sort WordCounts
+		Arrays.sort(wordCounts, 0, number, new Comparator<WordCount>() {
+			@Override
+			public int compare(WordCount w1, WordCount w2) {
+				return w2.count - w1.count;
+			}
+		});
+		
+		String[] keywords = new String[NUM_KEYWORDS];
+		
+		for(int i = 0; i < 5; i++) {
+			keywords[i] = wordCounts[i].word;
+		}
+		
+		return keywords;
+	}
+
+	public static void arrayInsert(WordCount[] wordCounts, int insertIndex, 
+			int numberWords, WordCount newWordCount) {
+		for(int i = numberWords - 1; i >= insertIndex; i--) {
+			wordCounts[i + 1] = wordCounts[i];
+		}
+		wordCounts[insertIndex] = newWordCount;
 	}
 
 	public static void main(String[] args) {
