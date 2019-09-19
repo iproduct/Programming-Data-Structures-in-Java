@@ -44,13 +44,33 @@ public class MyLibrary {
 		
 		// Generate report
 		StringBuilder sb = new StringBuilder();
+		sb.append(getUnderline(101)).append("\n");
 //		for(int i = 0;  i < numberBooks; i++) {
 //			sb.append(books[i].toString()).append("\n");
 //		}
+		sb.append(String.format("|%-30.30s|%-20.20s|%-15.15s|%-15.15s|%-15.15s|\n", 
+				"       Title", "     Authors", "    Publisher", "  Genre", 
+				"  Keywords"));
+		
+		sb.append(getUnderline(101)).append("\n");
+		
 		for(Book b : results) {
-			sb.append(b.toString()).append("\n");
+			sb.append(String.format("|%-30.30s|%-20.20s|%-15.15s|%-15.15s|%-15.15s|", 
+					b.getTitle(), b.getAuthors(), b.getPublisher(), b.getGenre(), 
+					b.getKeywords()))
+			.append("\n");
 		}
+		
+		sb.append(getUnderline(101)).append("\n");;
+
 		return sb.toString();
+	}
+
+	private String getUnderline(int length) {
+		char[] underline = new char[length];
+		Arrays.fill(underline, '-');
+		String underlineStr = new String(underline);
+		return underlineStr;
 	}
 	
 	public static void inputBookData(Book book) {
