@@ -2,6 +2,7 @@ package library;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 import model.Book;
@@ -182,8 +183,9 @@ public class MyLibrary {
 
 	public static void main(String[] args) {
 		Book[] sampleBooks = {
-			new Book("Thinking in Java - 4th edition", "Bruce Eckel", 
-					"Prentice Hall", "1234567890123", "Programming", 
+			new Book("Thinking in Java - 4th edition", "Bruce Eckel", "Prentice Hall", 
+					new GregorianCalendar(2006, 1, 1).getTime(),
+					"1234567890123", "Programming", 
 					"Thinking In Java should be read cover to cover by every Java programmer,\r\n" + 
 					"then kept close at hand for frequent reference. The exercises are challenging,\r\n" + 
 					"and the chapter on Collections is superb! Not only did this book help me to\r\n" + 
