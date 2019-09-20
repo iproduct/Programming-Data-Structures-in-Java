@@ -214,7 +214,8 @@ public class MyLibrary {
 //		}
 		
 		System.out.println("Keywords: " + Arrays.toString(proposeKeywords(sampleBooks[0])));
-
+		
+		System.out.println(sampleBooks[0].getDescription().replaceFirst("J\\S*", "JAVA"));
 	}
 
 }

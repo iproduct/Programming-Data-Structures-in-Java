@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Date;
+
 public class Book implements Comparable<Book>{
 	private static int nextId = 0;
 
@@ -7,6 +9,7 @@ public class Book implements Comparable<Book>{
 	private String title;
 	private String authors;
 	private String publisher;
+	private Date publishedDate;
 	private String isbn;
 	private String genre;
 	private String description;
@@ -24,11 +27,12 @@ public class Book implements Comparable<Book>{
 	}
 
 	// All args constructor
-	public Book(String title, String authors, String publisher, String isbn, String genre, String description,
+	public Book(String title, String authors, String publisher, Date publishedDate, String isbn, String genre, String description,
 			String keywords) {
 		this.title = title;
 		this.authors = authors;
 		this.publisher = publisher;
+		this.publishedDate = publishedDate;
 		this.isbn = isbn;
 		this.genre = genre;
 		this.description = description;
@@ -66,6 +70,14 @@ public class Book implements Comparable<Book>{
 
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
+	}
+
+	public Date getPublishedDate() {
+		return publishedDate;
+	}
+
+	public void setPublishedDate(Date publishedDate) {
+		this.publishedDate = publishedDate;
 	}
 
 	public String getIsbn() {
@@ -129,8 +141,9 @@ public class Book implements Comparable<Book>{
 	// String representation of the Book
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", authors=" + authors + ", publisher=" + publisher + ", isbn="
-				+ isbn + ", genre=" + genre + ", description=" + description + ", keywords=" + keywords + "]";
+		return "Book [id=" + id + ", title=" + title + ", authors=" + authors + ", publisher=" + publisher 
+				+ ", date=" + publishedDate + ", isbn=" + isbn 
+				+ ", genre=" + genre + ", description=" + description + ", keywords=" + keywords + "]";
 	}
 
 	@Override
