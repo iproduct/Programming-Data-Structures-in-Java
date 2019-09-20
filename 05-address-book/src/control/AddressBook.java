@@ -5,6 +5,9 @@ import java.util.List;
 
 import model.Address;
 import model.Contact;
+import model.Phone;
+
+import static model.PhoneKind.*;
 
 public class AddressBook {
 	private List<Contact> contacts = new ArrayList<>();
@@ -79,10 +82,12 @@ public class AddressBook {
 	public static void main(String[] args) {
 		Contact c1 = new Contact("John", "Smith", "john@gmail.com", "+44 32242342");
 		Contact c2 = new Contact("Ivan", "Petrov", "ivanp@gmail.com", "+3592 345345");
-		Contact c3 = new Contact("Ludmila", "Petrova", "lucyp@gmail.com", "+359 889 123456",
-				"+3592 2345678", "+3592 768677", "FMI", 
-				new Address("Bulgaria", "Sofia", "J. Bouchier 20")
-				, "Work colleague", null);
+		List<Phone> phones = new ArrayList<>();
+		phones.add(Phone.parsePhone("+359 889 123456"));
+		phones.add(Phone.parsePhone("+3592 2345678", WORK));
+		phones.add(Phone.parsePhone("+3592 768677", HOME));
+		Contact c3 = new Contact("Ludmila", "Petrova", "lucyp@gmail.com", phones, "FMI", 
+				"Bulgaria, Sofia, J. Bouchier 25", "Work colleague", null);
 		AddressBook book = new AddressBook("My Contacts");
 		book.addContact(c1);
 		book.addContact(c2);

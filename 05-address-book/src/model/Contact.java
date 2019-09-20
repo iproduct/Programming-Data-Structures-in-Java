@@ -1,14 +1,16 @@
 package model;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Contact {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String mobilePhone;
-	private String businessPhone;
-	private String homePhone;
+	private List<Phone> phones;
 	private String organization;
 	private Address address;
 	private String description;
@@ -21,21 +23,37 @@ public class Contact {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.mobilePhone = mobilePhone;
+		this.phones = Arrays.asList(new Phone[] {Phone.parsePhone(mobilePhone)});
 	}
-	public Contact(String firstName, String lastName, String email, String mobilePhone, String businessPhone,
-			String homePhone, String organization, Address address, String description, String photoUrl) {
+	public Contact(String firstName, String lastName, String email, List<Phone> phones, 
+			String organization, Address address, String description, String photoUrl) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.mobilePhone = mobilePhone;
-		this.businessPhone = businessPhone;
-		this.homePhone = homePhone;
+		this.phones = phones;
 		this.organization = organization;
 		this.address = address;
 		this.description = description;
 		this.photoUrl = photoUrl;
 	}
+	public Contact(String firstName, String lastName, String email, List<Phone> phones,
+			String organization, String address, String description, String photoUrl) {
+		
+		this(firstName, lastName, email, phones,
+				organization, parseAddress(address), description, photoUrl);
+	}
+	
+	protected static Address parseAddress(String addressStr) {
+		addressStr = addressStr.trim();
+		Pattern p = Pattern.compile("^([A-Z][a-z]+|[A-Z]{2})[\\s,]+([A-Z][a-z]+)[\\s,]+(.+)$");
+		Matcher m = p.matcher(addressStr);
+		if(m.matches()) {
+			return new Address(m.group(1), m.group(2), m.group(3));
+		} else {
+			return new Address("", "", addressStr);
+		}
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -54,23 +72,12 @@ public class Contact {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getMobilePhone() {
-		return mobilePhone;
+	
+	public List<Phone> getPhones() {
+		return phones;
 	}
-	public void setMobilePhone(String mobilePhone) {
-		this.mobilePhone = mobilePhone;
-	}
-	public String getBusinessPhone() {
-		return businessPhone;
-	}
-	public void setBusinessPhone(String businessPhone) {
-		this.businessPhone = businessPhone;
-	}
-	public String getHomePhone() {
-		return homePhone;
-	}
-	public void setHomePhone(String homePhone) {
-		this.homePhone = homePhone;
+	public void setPhones(List<Phone> phones) {
+		this.phones = phones;
 	}
 	public String getOrganization() {
 		return organization;
@@ -147,11 +154,9 @@ public class Contact {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Name: ").append(firstName).append(" ").append(lastName)
-				.append("\nEmail: ").append(email).append("\nMobile: ").append(mobilePhone);
-		if(businessPhone != null)
-			builder.append(", Business: ").append(businessPhone);
-		if(homePhone != null)
-			builder.append(", Home: ").append(homePhone);
+				.append("\nEmail: ").append(email);
+		if(phones.size() > 0)
+			builder.append("\nPhones: ").append(phones.toString());
 		if(organization != null)
 			builder.append("\nOrganization: ").append(organization);
 		if(address != null)
