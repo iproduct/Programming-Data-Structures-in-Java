@@ -1,5 +1,7 @@
 package library;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
@@ -49,24 +51,24 @@ public class MyLibrary {
 		
 		// Generate report
 		StringBuilder sb = new StringBuilder();
-		sb.append(getUnderline(101)).append("\n");
+		sb.append(getUnderline(108)).append("\n");
 //		for(int i = 0;  i < numberBooks; i++) {
 //			sb.append(books[i].toString()).append("\n");
 //		}
-		sb.append(String.format("|%-30.30s|%-20.20s|%-15.15s|%-15.15s|%-15.15s|\n", 
-				"       Title", "     Authors", "    Publisher", "  Genre", 
+		sb.append(String.format("|%-30.30s|%-20.20s|%-6s|%-15.15s|%-15.15s|%-15.15s|\n", 
+				"       Title", "     Authors", " Date", "    Publisher", "  Genre", 
 				"  Keywords"));
 		
-		sb.append(getUnderline(101)).append("\n");
+		sb.append(getUnderline(108)).append("\n");
 		
 		for(Book b : results) {
-			sb.append(String.format("|%-30.30s|%-20.20s|%-15.15s|%-15.15s|%-15.15s|", 
-					b.getTitle(), b.getAuthors(), b.getPublisher(), b.getGenre(), 
+			sb.append(String.format("|%-30.30s|%-20.20s|%6tY|%-15.15s|%-15.15s|%-15.15s|", 
+					b.getTitle(), b.getAuthors(), b.getPublishedDate(), b.getPublisher(), b.getGenre(), 
 					b.getKeywords()))
 			.append("\n");
 		}
 		
-		sb.append(getUnderline(101)).append("\n");;
+		sb.append(getUnderline(108)).append("\n");;
 
 		return sb.toString();
 	}
@@ -95,12 +97,26 @@ public class MyLibrary {
 			book.setAuthors(answer);
 		}
 		
-		// Input authors
+		// Input publisher
 		System.out.println("Издател [" + book.getPublisher() + "]:");
 		answer = sc.nextLine();
 		if(answer.length() > 0 || book.getPublisher() == null) {
 			book.setPublisher(answer);
 		}
+		
+		// Input published date
+		do {
+			System.out.println("Дата [" + book.getPublishedDate() + "]:");
+			answer = sc.nextLine();
+			if(answer.length() > 0 || book.getPublishedDate() == null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+				try {
+					book.setPublishedDate(sdf.parse(answer));
+				} catch (ParseException e) {
+					System.out.println("Невалидна дата: " + answer + ". Опитайте отново.");
+				}
+			}
+		} while(book.getPublishedDate() == null);
 		
 		// Input authors
 		System.out.println("ISBN [" + book.getIsbn() + "]:");
@@ -184,7 +200,7 @@ public class MyLibrary {
 	public static void main(String[] args) {
 		Book[] sampleBooks = {
 			new Book("Thinking in Java - 4th edition", "Bruce Eckel", "Prentice Hall", 
-					new GregorianCalendar(2006, 1, 1).getTime(),
+					new GregorianCalendar(2006, 0, 1).getTime(),
 					"1234567890123", "Programming", 
 					"Thinking In Java should be read cover to cover by every Java programmer,\r\n" + 
 					"then kept close at hand for frequent reference. The exercises are challenging,\r\n" + 
@@ -200,13 +216,13 @@ public class MyLibrary {
 		//Print all books report
 		System.out.println(lib.getBooksCatalog());
 		
-//		Book newBook = new Book();
-//		inputBookData(newBook);
-//		lib.addBook(newBook);
-//		
-//		//Print all books report
-//		System.out.println(lib.getBooksCatalog());
-//		
+		Book newBook = new Book();
+		inputBookData(newBook);
+		lib.addBook(newBook);
+		
+		//Print all books report
+		System.out.println(lib.getBooksCatalog());
+		
 //		//Serach books
 //		System.out.println("Въведете низ за търсене:");
 //		String searchStr = sc.nextLine();
@@ -218,6 +234,8 @@ public class MyLibrary {
 		System.out.println("Keywords: " + Arrays.toString(proposeKeywords(sampleBooks[0])));
 		
 		System.out.println(sampleBooks[0].getDescription().replaceFirst("J\\S*", "JAVA"));
+		
+		System.out.println(sampleBooks[0]);
 	}
 
 }

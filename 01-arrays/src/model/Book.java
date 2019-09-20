@@ -1,5 +1,6 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Book implements Comparable<Book>{
@@ -141,8 +142,9 @@ public class Book implements Comparable<Book>{
 	// String representation of the Book
 	@Override
 	public String toString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 		return "Book [id=" + id + ", title=" + title + ", authors=" + authors + ", publisher=" + publisher 
-				+ ", date=" + publishedDate + ", isbn=" + isbn 
+				+ ", date=" + sdf.format(publishedDate) + ", isbn=" + isbn 
 				+ ", genre=" + genre + ", description=" + description + ", keywords=" + keywords + "]";
 	}
 
