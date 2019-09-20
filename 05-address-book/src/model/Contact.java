@@ -12,8 +12,8 @@ public class Contact {
 	private String organization;
 	private Address address;
 	private String description;
-	private Date created;
-	private Date modified;
+	private Date created = new Date();
+	private Date modified = created;
 	private String photoUrl;
 	public Contact() {
 	}
@@ -24,8 +24,7 @@ public class Contact {
 		this.mobilePhone = mobilePhone;
 	}
 	public Contact(String firstName, String lastName, String email, String mobilePhone, String businessPhone,
-			String homePhone, String organization, Address address, String description, Date created, Date modified,
-			String photoUrl) {
+			String homePhone, String organization, Address address, String description, String photoUrl) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -35,8 +34,6 @@ public class Contact {
 		this.organization = organization;
 		this.address = address;
 		this.description = description;
-		this.created = created;
-		this.modified = modified;
 		this.photoUrl = photoUrl;
 	}
 	public String getFirstName() {
