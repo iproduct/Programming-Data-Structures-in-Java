@@ -3,7 +3,6 @@ package control;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Address;
 import model.Contact;
 import model.Phone;
 

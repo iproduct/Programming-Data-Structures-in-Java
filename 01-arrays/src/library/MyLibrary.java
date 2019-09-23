@@ -1,9 +1,17 @@
 package library;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
@@ -18,6 +26,8 @@ public class MyLibrary {
 	private Book[] books = new Book[MAX_BOOKS];
 	private int numberBooks = 0;
 
+	public MyLibrary() {
+	}
 	public MyLibrary(Book[] books) {
 		for(Book book: books) {
 			addBook(book);
@@ -197,6 +207,55 @@ public class MyLibrary {
 		wordCounts[insertIndex] = newWordCount;
 	}
 
+	public void writeToFile(String file) throws IOException {
+		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		for(int i = 0; i < numberBooks; i++) {
+			Book b = books[i];
+			out.print(getField(b.getId() + "") + "|");
+			out.print(getField(b.getTitle()) + "|");
+			out.print(getField(b.getAuthors()) + "|");
+			out.print(getField(b.getPublisher()) + "|");
+			out.print(sdf.format(
+				b.getPublishedDate() != null ? b.getPublishedDate(): new Date()) + "|");
+			out.print(getField(b.getIsbn()) + "|");
+			out.print(getField(b.getGenre()) + "|");
+			out.print(getField(b.getDescription()) + "|");
+			out.print(getField(b.getKeywords() + "|"));
+			out.println();
+		}
+		out.close();
+	}
+	
+	protected String getField(String field) {
+		String result = field != null ? field.replaceAll("\\s+", " ") : "";
+		result = result.replaceAll("\\|", "/");
+		return result;
+	}
+	
+	public int readFromFile(String file) throws IOException, ParseException {
+		BufferedReader in = new BufferedReader(new FileReader(file));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		String s;
+		int count = 0;
+		while((s = in.readLine())!= null) {
+			String[] fields = s.split("\\|");
+			Book b = new Book(fields[1], fields[2], fields[3],  
+					fields[4].length() > 0? sdf.parse(fields[4]): null,
+					fields[5], fields[6], fields[7], fields[8]);
+			try {
+				int id = Integer.parseInt(fields[0]);
+				b.setId(id);
+				addBook(b);
+				count++;
+			} catch (NumberFormatException e) {
+				throw new ParseException("Error parsing ID: " + fields[0], 0);
+			}
+	    }
+	    in.close();
+		return count;
+	}
+	
 	public static void main(String[] args) {
 		Book[] sampleBooks = {
 			new Book("Thinking in Java - 4th edition", "Bruce Eckel", "Prentice Hall", 
@@ -206,22 +265,37 @@ public class MyLibrary {
 					"then kept close at hand for frequent reference. The exercises are challenging,\r\n" + 
 					"and the chapter on Collections is superb! Not only did this book help me to\r\n" + 
 					"pass the Sun Certified Java Programmer exam; it’s also the first book I turn\r\n" + 
-					"to whenever I have a Java question. ", ""),
+					"to whenever I have a Java question. ", "java, programming, book"),
 			new Book("Въведение в програмирането с Java", "С. Наков и колектив", "Programming"),
 			new Book("Open Data Structures (in Java)", "Pat Morin", "Programming"),
 			new Book("Java Data", "Particle", "Programming"),
 		};
 		MyLibrary lib = new MyLibrary(sampleBooks);
+		try {
+			lib.writeToFile("books.db");
+		} catch (IOException e) {
+			System.out.println("Error writing books.db file: " + e.getMessage());
+		}
+		
+		// Read from file
+		lib = new MyLibrary();
+		try {
+			lib.readFromFile("books.db");
+		} catch (IOException e) {
+			System.out.println("Error reading books.db file: " + e.getMessage());
+		} catch (ParseException e) {
+			System.out.println("Error reading books.db file: " + e.getMessage());
+		}
 		
 		//Print all books report
 		System.out.println(lib.getBooksCatalog());
 		
-		Book newBook = new Book();
-		inputBookData(newBook);
-		lib.addBook(newBook);
-		
-		//Print all books report
-		System.out.println(lib.getBooksCatalog());
+//		Book newBook = new Book();
+//		inputBookData(newBook);
+//		lib.addBook(newBook);
+//		
+//		//Print all books report
+//		System.out.println(lib.getBooksCatalog());
 		
 //		//Serach books
 //		System.out.println("Въведете низ за търсене:");
@@ -231,11 +305,12 @@ public class MyLibrary {
 //			System.out.println(b);
 //		}
 		
-		System.out.println("Keywords: " + Arrays.toString(proposeKeywords(sampleBooks[0])));
-		
-		System.out.println(sampleBooks[0].getDescription().replaceFirst("J\\S*", "JAVA"));
-		
-		System.out.println(sampleBooks[0]);
+//		System.out.println("Keywords: " + Arrays.toString(proposeKeywords(sampleBooks[0])));
+//		
+//		System.out.println(sampleBooks[0].getDescription().replaceFirst("J\\S*", "JAVA"));
+//		
+//		System.out.println(sampleBooks[0]);
+//		
 	}
 
 }
