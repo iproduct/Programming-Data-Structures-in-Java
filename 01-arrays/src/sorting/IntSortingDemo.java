@@ -34,14 +34,28 @@ public class IntSortingDemo {
 
 	}
 	
+	public static void sortInsertion(int[] a) { // (n-1) * n/2 => Complexity = O(n^2)
+		for(int i = 2; i < a.length; i++) { // n-1 iterations
+			for(int j = 0; j < i; j ++) { // average loop j + loop k =  n/2 operations
+				if(a[i] < a[j]) {
+					int temp = a[i];
+					for(int k = i; k > j; k--) { 
+					}
+					a[j] = temp;
+					break;
+				}
+			}
+		}
+	}
+	
 	public static void main(String[] args) {
 		//Initialize array using array literal
 		int[] a = {23, 15, 17, 92, 110, 4, 12, 67, 54, 45};
 		
-		int minIndex = findMinIndex(a, 0);
-		System.out.println("a[" + minIndex + "]= " + a[minIndex]);
+//		int minIndex = findMinIndex(a, 0);
+//		System.out.println("a[" + minIndex + "]= " + a[minIndex]);
 		
-		sortBubble(a);
+		sortInsertion(a);
 		System.out.println(Arrays.toString(a));
 
 	}

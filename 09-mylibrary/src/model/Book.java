@@ -113,12 +113,11 @@ public class Book implements Comparable<Book>{
 		this.keywords = keywords;
 	}
 
-	// hashCode and equals
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + id;
 		return result;
 	}
 
@@ -131,10 +130,7 @@ public class Book implements Comparable<Book>{
 		if (getClass() != obj.getClass())
 			return false;
 		Book other = (Book) obj;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
+		if (id != other.id)
 			return false;
 		return true;
 	}
@@ -150,7 +146,7 @@ public class Book implements Comparable<Book>{
 
 	@Override
 	public int compareTo(Book o) {
-		return getTitle().compareToIgnoreCase(o.getTitle());
+		return (int) Math.signum(id - o.getId());
 	}
 
 }

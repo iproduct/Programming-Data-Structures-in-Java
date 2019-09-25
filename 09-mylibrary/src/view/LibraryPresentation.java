@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import library.BookTitleComparator;
-import library.MyLibrary;
+import control.BookTitleComparator;
+import control.MyLibrary;
 import model.Book;
 
 public class LibraryPresentation {
@@ -74,6 +74,36 @@ public class LibraryPresentation {
 				}
 				saveBooks();
 				break;
+			}
+			case 5: { //delete book
+				// homework 
+				break;
+			}
+			case 6: { //write db to file
+				try {
+					library.writeToFile(BOOKS_DB_FILE);
+					System.out.println(library.getBooksCount() 
+							+ " books successfully written to DB file '"
+							+ BOOKS_DB_FILE +"'.");
+				} catch (IOException e) {
+					System.out.println("Error writing to books DB file '" 
+							+ BOOKS_DB_FILE + "': " + e.getMessage());
+				}
+				break;
+			}
+			case 7: { //load from db file
+				try {
+					library.readFromFile(BOOKS_DB_FILE);
+					System.out.println(library.getBooksCount() 
+							+ " books successfully loaded from DB file '"
+							+ BOOKS_DB_FILE +"'.");
+				} catch (IOException e) {
+					System.out.println("Error reading from books DB file '" 
+							+ BOOKS_DB_FILE + "': " + e.getMessage());
+				} catch (ParseException e) {
+					System.out.println("Error parsing data from books DB file '" 
+							+ BOOKS_DB_FILE + "': " + e.getMessage());
+				}
 			}
 		}
 		return answer;
