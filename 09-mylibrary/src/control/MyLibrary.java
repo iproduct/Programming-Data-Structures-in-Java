@@ -31,7 +31,7 @@ public class MyLibrary {
 	public static final int NUM_KEYWORDS = 5;
 
 	private static Scanner sc = new Scanner(System.in);
-	private List<Book> books = new ArrayList<>();
+	private List<Book> books = new ArrayList<Book>();
 //	private int numberBooks = 0;
 
 	public MyLibrary() {
