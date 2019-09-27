@@ -132,7 +132,7 @@ public class ReversePolishNotationCalculator {
 
 	public static void main(String[] args) {
 		ReversePolishNotationCalculator rpn = new ReversePolishNotationCalculator();
-		String rpnExpr = rpn.transformToRPN("5 + ( ( 1 + 2 ) * 4 ) - 3");
+		String rpnExpr = rpn.transformToRPN("5.25 + ( ( 1 + 2 ) * 4 ) - 3");
 		System.out.println(rpnExpr);
 		System.out.format("Result is: %10.2f", rpn.claculate(rpnExpr));
 	}

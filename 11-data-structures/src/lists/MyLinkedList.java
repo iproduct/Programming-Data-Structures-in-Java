@@ -56,20 +56,58 @@ public class MyLinkedList<E> implements MyList<E>{
 	
 	@Override
 	public void set(int index, E element) {
-		// TODO Auto-generated method stub
-		
+		if(index < 0 || index > size-1)
+			throw new MyListException("Index out bounds: " + index);
+
+		ListElement<E> current = first;
+		int pos = 0;
+		while(current != null && pos++ < index) {
+			current = current.getNext();
+		}
+		current.setValue(element);
 	}
 
 	@Override
-	public void remove(int index) {
-		// TODO Auto-generated method stub
+	public E remove(int index) {
+		if(index < 0 || index > size-1)
+			throw new MyListException("Index out bounds: " + index);
 		
+		ListElement<E> current = first, previous = null;
+		if(index == 0) {
+			first = first.getNext();
+			return current.getValue();
+		}
+
+		int pos = 0;
+		while(current != null && pos++ < index) {
+			previous = current;
+			current = current.getNext();
+		}
+		// remove element
+		previous.setNext(current.getNext());
+		if(index == size - 1) {
+			last = previous;
+		}
+		size --;
+		
+		return current.getValue();
 	}
 
 	@Override
 	public int indexOf(E element) {
-		// TODO Auto-generated method stub
-		return 0;
+
+		ListElement<E> current = first;
+		
+		int pos = 0;
+		while(current != null && !current.getValue().equals(element)) {
+			current = current.getNext();
+			pos++;
+		}
+		if(current == null) {
+			return -1;
+		} else {
+			return pos;
+		}
 	}
 
 	@Override
@@ -132,10 +170,11 @@ public class MyLinkedList<E> implements MyList<E>{
 //		myBooks.add(0, sampleBooks[0]);
 //		myBooks.add(myBooks.size(), sampleBooks[1]);
 		for(Book b: sampleBooks) {
-			myBooks.add(b);
+			myBooks.add(0, b);
 		}
+		System.out.println("Found Book index: " + myBooks.indexOf(sampleBooks[3]));
 		System.out.println(myBooks);
-		System.out.println("First Book: " + myBooks.get(4));
+//		System.out.println("First Book: " + myBooks.get(0));
 
 	}
 

@@ -7,7 +7,7 @@ public interface MyList<E> extends Iterable<E>{
 	void add(int index, E element);
 	E get(int index);
 	void set(int index, E element);
-	void remove(int index);
+	E remove(int index);
 	int indexOf(E element); // returns position or -1 if not found
 	String toString();
 	Iterator<E> iterator();

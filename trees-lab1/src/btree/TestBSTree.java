@@ -13,7 +13,7 @@ public class TestBSTree {
 		bst.insert(24, "twenty four");
 		
 		bst.print();
-		int key = 5;
+		int key = 24;
 		String found = bst.search(key);
 		
 		System.out.println((found == null) ? "not found"

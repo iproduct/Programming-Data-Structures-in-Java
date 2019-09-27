@@ -77,14 +77,14 @@ class BTNode<T> {
 		
 	}
 	public void traverseBF(Visitor<T> visitor) {		
-		Queue<BTNode<T>> stack = new QueueImpl<>();
-		stack.offer(this);
-		while(!stack.isEmpty()){
-			BTNode<T> current = stack.poll();
+		Queue<BTNode<T>> queue = new QueueImpl<>();
+		queue.offer(this);
+		while(!queue.isEmpty()){
+			BTNode<T> current = queue.poll();
 			if(current != nil) {
 				visitor.visit(current.entry);
-				stack.offer(current.left);
-				stack.offer(current.right);
+				queue.offer(current.left);
+				queue.offer(current.right);
 			}
 		}
 		

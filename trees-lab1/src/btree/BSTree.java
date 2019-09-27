@@ -8,8 +8,8 @@ public class BSTree<K extends Comparable<K>, V>  {
 	}
 
 	private BTNode<K,V> insertR(BTNode<K,V> root, K key, V value) {
-		if(root == null) return  // recursion bottom
-			new BTNode<K,V>(key, value);
+		if(root == null) // recursion bottom
+			return new BTNode<K,V>(key, value);
 		if(key.compareTo(root.getKey()) == 0) // recursion bottom
 			root.setValue(value);
 		if(key.compareTo(root.getKey()) < 0) // recursion step
@@ -25,12 +25,13 @@ public class BSTree<K extends Comparable<K>, V>  {
 	
 	public V searchR(BTNode<K,V> root, K key) {
 		if(root == null) return null; // recursion bottom
-		if(root.getKey().equals(key)) return root.getValue(); // recursion bottom
-		if(key.compareTo(root.getKey()) < 0) //
+		if(root.getKey().compareTo(key) == 0) {
+			return root.getValue(); // recursion bottom
+		} else if(key.compareTo(root.getKey()) < 0) // recursion step
 			return searchR(root.left, key);
-		else if (key.compareTo(root.getKey()) > 0)
+		else {
 			return searchR(root.right, key);
-		return null;
+		}
 	}
 	
 //	public Entry<K,V> searchIter(K key) {

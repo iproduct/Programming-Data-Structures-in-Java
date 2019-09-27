@@ -150,14 +150,19 @@ public class MyLinkedList<T> implements MyList<T>{
 		list.add(0, "Ruse");
 		list.add(2, "Samokov");
 		
-		System.out.println(list.remove(2));
-		System.out.println(list.remove(0));
+//		System.out.println(list.remove(2));
+//		System.out.println(list.remove(0));
 		
 		System.out.println("\nResult list:");
 		Iterator<String> it = list.iterator();
 		
 		while(it.hasNext()) {
 			System.out.println(it.next());
+		}
+		
+		System.out.println("\nResult list using for-each:");
+		for(String s: list) {
+			System.out.println(s);
 		}
 		
 	}
